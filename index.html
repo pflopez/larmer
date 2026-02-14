@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DRAUN DR-808 Digital Rhythm</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23D0CFC8'/%3E%3Crect x='4' y='4' width='24' height='10' rx='2' fill='%232A2A30'/%3E%3Ccircle cx='8' cy='9' r='1.5' fill='%23CC5C28'/%3E%3Ccircle cx='13' cy='9' r='1.5' fill='%23CC5C28' opacity='.4'/%3E%3Ccircle cx='18' cy='9' r='1.5' fill='%235C9A44'/%3E%3Ccircle cx='23' cy='9' r='1.5' fill='%235C9A44' opacity='.4'/%3E%3Crect x='4' y='18' width='5' height='5' rx='1' fill='%232A2A30'/%3E%3Crect x='13.5' y='18' width='5' height='5' rx='1' fill='%232A2A30'/%3E%3Crect x='23' y='18' width='5' height='5' rx='1' fill='%232A2A30'/%3E%3Crect x='4' y='25' width='5' height='3' rx='1' fill='%23CC5C28'/%3E%3Crect x='13.5' y='25' width='5' height='3' rx='1' fill='%23C8483A'/%3E%3Crect x='23' y='25' width='5' height='3' rx='1' fill='%235C9A44'/%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>LARMER WN-1 — White Noise</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' rx='6' fill='%23D0CFC8'/%3E%3Crect x='4' y='3' width='24' height='18' rx='3' fill='%231A1A1E'/%3E%3Crect x='4' y='3' width='24' height='2.5' rx='1' fill='%23C8C7C0'/%3E%3Crect x='4' y='7.5' width='24' height='2.5' rx='1' fill='%23C8C7C0'/%3E%3Crect x='4' y='12' width='24' height='2.5' rx='1' fill='%23C8C7C0'/%3E%3Crect x='4' y='16.5' width='24' height='2.5' rx='1' fill='%23C8C7C0'/%3E%3Ccircle cx='22' cy='26' r='3.5' fill='%23DDDDD6'/%3E%3Ccircle cx='22' cy='24' r='1' fill='%23CC5C28'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -17,18 +17,14 @@
   --surface-darker: #1A1A1E;
   --amber: #CC5C28;
   --amber-glow: rgba(204, 92, 40, 0.55);
-  --amber-dim: #6A3418;
   --green: #5C9A44;
   --green-glow: rgba(92, 154, 68, 0.5);
-  --red-accent: #C8483A;
   --text-dark: #2A2A30;
   --text-muted: #6C6C74;
-  --grill-slot: #42424A;
+  --pad: 24px;
 }
 
-html {
-  height: 100%;
-}
+html { height: 100%; }
 
 body {
   min-height: 100%;
@@ -36,21 +32,21 @@ body {
   align-items: center;
   justify-content: center;
   background: #1C1C20;
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(50,50,60,0.4) 0%, transparent 70%);
-  font-family: 'Outfit', sans-serif;
-  padding: 40px 20px;
+  background-image: radial-gradient(ellipse at 50% 30%, rgba(50,50,60,0.4) 0%, transparent 70%);
+  font-family: 'Jost', sans-serif;
+  padding: 20px 12px;
   user-select: none;
   -webkit-user-select: none;
 }
 
 /* ══════════════════════════════════════════
-   MACHINE ENCLOSURE
+   MACHINE
    ══════════════════════════════════════════ */
 .machine {
-  width: 880px;
+  width: 100%;
+  max-width: 520px;
   background: var(--body-color);
-  border-radius: 18px;
+  border-radius: 14px;
   position: relative;
   box-shadow:
     0 30px 80px rgba(0,0,0,0.55),
@@ -69,34 +65,193 @@ body {
   background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   background-size: 200px;
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
 }
 
 /* ══════════════════════════════════════════
-   TOP HEADER
+   HEADER
    ══════════════════════════════════════════ */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 28px 40px 0;
+  padding: 20px var(--pad) 0;
   position: relative;
   z-index: 2;
 }
 
-.brand {
+.header-brand {
   font-weight: 700;
   font-size: 15px;
   letter-spacing: 8px;
   color: var(--text-dark);
+}
+
+.header-model {
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--text-muted);
+}
+
+/* ══════════════════════════════════════════
+   SPEAKER GRILL
+   ══════════════════════════════════════════ */
+.grill-container {
+  margin: 16px var(--pad) 0;
+  height: min(400px, 77vw);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.grill-interior {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-darker);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.speaker-cone {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 48% 46%,
+    rgba(70,70,80,0.6) 0%,
+    rgba(55,55,65,0.5) 25%,
+    rgba(40,40,50,0.35) 50%,
+    rgba(30,30,38,0.2) 70%,
+    transparent 82%
+  );
+  position: relative;
+  transition: box-shadow 0.8s ease;
+}
+
+.speaker-cone.on {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 40px rgba(50,50,60,0.2); }
+  50% { box-shadow: 0 0 70px rgba(50,50,60,0.4), 0 0 120px rgba(50,50,60,0.12); }
+}
+
+.speaker-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  border: 2px solid rgba(80,80,90,0.2);
+}
+
+.speaker-ring-inner {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  border: 2px solid rgba(80,80,90,0.15);
+}
+
+.speaker-cap {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 45% 42%,
+    rgba(75,75,85,0.7), rgba(55,55,65,0.5));
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.speaker-cap::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(90,90,100,0.4);
+}
+
+.grill-slats {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--body-color) 0px,
+    var(--body-color) 5px,
+    transparent 5px,
+    transparent 9px
+  );
+}
+
+.grill-depth {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(to bottom,
+    rgba(0,0,0,0.22) 0%, transparent 8%,
+    transparent 92%, rgba(0,0,0,0.14) 100%
+  );
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════
+   ACCENT LINE
+   ══════════════════════════════════════════ */
+.accent-line {
+  height: 2px;
+  margin: 16px var(--pad) 0;
+  background: linear-gradient(90deg,
+    rgba(175,175,180,0) 0%, rgba(175,175,180,0.6) 15%,
+    rgba(195,195,200,0.8) 50%, rgba(175,175,180,0.6) 85%,
+    rgba(175,175,180,0) 100%
+  );
+  position: relative;
+  z-index: 2;
+}
+
+.accent-line::after {
+  content: '';
+  position: absolute;
+  top: 1px; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(255,255,255,0.25) 15%,
+    rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.25) 85%,
+    transparent 100%
+  );
+}
+
+/* ══════════════════════════════════════════
+   CONTROLS
+   ══════════════════════════════════════════ */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px var(--pad) 0;
+  position: relative;
+  z-index: 2;
+}
+
+.brand-group {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
 .power-led {
-  width: 7px;
-  height: 7px;
+  width: 9px; height: 9px;
   border-radius: 50%;
   background: #444;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
@@ -111,346 +266,141 @@ body {
     inset 0 -1px 2px rgba(0,0,0,0.2);
 }
 
-.model {
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: 4px;
-  color: var(--text-muted);
-}
-
-/* ══════════════════════════════════════════
-   SPEAKER GRILL
-   ══════════════════════════════════════════ */
-.grill-container {
-  margin: 22px 40px 0;
-  position: relative;
-  z-index: 2;
-}
-
-.speaker-grill {
-  height: 120px;
-  border-radius: 8px;
-  background-color: var(--body-dark);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='7'%3E%3Crect x='3' y='1.8' width='36' height='3.2' rx='1.6' fill='%2342424A'/%3E%3C/svg%3E");
-  background-size: 42px 7px;
-  box-shadow:
-    inset 0 4px 12px rgba(0,0,0,0.22),
-    inset 0 -2px 6px rgba(0,0,0,0.08),
-    inset 0 0 0 1px rgba(0,0,0,0.05);
-}
-
-/* ══════════════════════════════════════════
-   ALUMINUM ACCENT LINE
-   ══════════════════════════════════════════ */
-.accent-line {
-  height: 2px;
-  margin: 22px 40px 0;
-  background: linear-gradient(90deg,
-    rgba(175,175,180,0) 0%,
-    rgba(175,175,180,0.6) 15%,
-    rgba(195,195,200,0.8) 50%,
-    rgba(175,175,180,0.6) 85%,
-    rgba(175,175,180,0) 100%
-  );
-  position: relative;
-  z-index: 2;
-}
-
-.accent-line::after {
-  content: '';
-  position: absolute;
-  top: 1px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,255,255,0.25) 15%,
-    rgba(255,255,255,0.4) 50%,
-    rgba(255,255,255,0.25) 85%,
-    transparent 100%
-  );
-}
-
-/* ══════════════════════════════════════════
-   STEP INDICATORS
-   ══════════════════════════════════════════ */
-.step-indicators {
-  display: flex;
-  padding: 22px 40px 0;
-  padding-left: 104px;
-  position: relative;
-  z-index: 2;
-}
-
-.step-led-cell {
-  width: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.step-led {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.12);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.15);
-}
-
-.step-led.active {
-  background: var(--amber);
-  box-shadow:
-    0 0 5px var(--amber-glow),
-    0 0 12px rgba(204,92,40,0.3);
-}
-
-.beat-labels {
-  display: flex;
-  padding: 6px 40px 0;
-  padding-left: 104px;
-  position: relative;
-  z-index: 2;
-}
-
-.beat-label-group {
-  justify-content: center;
-}
-
-.beat-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 8px;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  text-align: center;
-}
-
-/* ══════════════════════════════════════════
-   SEQUENCER GRID
-   ══════════════════════════════════════════ */
-.sequencer {
-  padding: 14px 40px 0;
-  position: relative;
-  z-index: 2;
-}
-
-.channel-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.channel-row:last-child {
-  margin-bottom: 0;
-}
-
-.channel-label {
-  width: 48px;
-  margin-right: 16px;
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
+.brand-text {
   font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--text-muted);
-  text-align: right;
-  flex-shrink: 0;
+  font-size: 16px;
+  letter-spacing: 8px;
+  color: var(--text-dark);
 }
 
-.steps {
-  display: flex;
-  gap: 0;
-}
-
-.step-group {
-  display: flex;
-  gap: 5px;
-}
-
-.step-group + .step-group {
-  margin-left: 14px;
-}
-
-.step-btn {
-  width: 38px;
-  height: 38px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  background: linear-gradient(180deg, #EAEAE6 0%, #DDDDD8 40%, #D0D0CA 100%);
-  box-shadow:
-    0 3px 1px rgba(0,0,0,0.05),
-    0 4px 8px rgba(0,0,0,0.14),
-    0 1px 3px rgba(0,0,0,0.10),
-    inset 0 1px 0 rgba(255,255,255,0.75),
-    inset 0 -1px 0 rgba(0,0,0,0.04),
-    inset 1px 0 0 rgba(255,255,255,0.2),
-    inset -1px 0 0 rgba(0,0,0,0.02);
-  outline: none;
-}
-
-.step-btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30px;
-  height: 30px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.06) 0%, transparent 55%);
-  box-shadow:
-    inset 0 2px 4px rgba(0,0,0,0.07),
-    inset 0 1px 2px rgba(0,0,0,0.04),
-    inset 0 -2px 3px rgba(255,255,255,0.25),
-    inset 0 -1px 1px rgba(255,255,255,0.18);
-  pointer-events: none;
-}
-
-.step-btn:hover {
-  background: linear-gradient(180deg, #F0F0EC 0%, #E4E4DE 40%, #D6D6D0 100%);
-}
-
-.step-btn:active {
-  transform: translateY(2px);
-  box-shadow:
-    0 1px 1px rgba(0,0,0,0.08),
-    0 1px 3px rgba(0,0,0,0.06),
-    inset 0 1px 2px rgba(0,0,0,0.06);
-}
-
-.step-btn:active::after {
-  box-shadow:
-    inset 0 2px 3px rgba(0,0,0,0.06),
-    inset 0 1px 1px rgba(0,0,0,0.03),
-    inset 0 -1px 2px rgba(255,255,255,0.15);
-}
-
-.step-btn.active {
-  background: linear-gradient(180deg, #D86830 0%, #CC5C28 40%, #B84E20 100%);
-  box-shadow:
-    0 3px 1px rgba(0,0,0,0.05),
-    0 4px 8px rgba(0,0,0,0.12),
-    0 1px 3px rgba(0,0,0,0.08),
-    0 0 12px rgba(204,92,40,0.2),
-    inset 0 1px 0 rgba(255,160,90,0.35),
-    inset 0 -1px 0 rgba(0,0,0,0.08);
-}
-
-.step-btn.active::after {
-  background: radial-gradient(ellipse at 50% 40%, rgba(255,180,120,0.08) 0%, transparent 55%);
-  box-shadow:
-    inset 0 2px 4px rgba(0,0,0,0.10),
-    inset 0 1px 2px rgba(0,0,0,0.06),
-    inset 0 -2px 3px rgba(255,160,90,0.22),
-    inset 0 -1px 1px rgba(255,140,70,0.15);
-}
-
-.step-btn.active:hover {
-  background: linear-gradient(180deg, #E07038 0%, #D46430 40%, #C05628 100%);
-}
-
-.step-btn.current {
-  box-shadow:
-    0 3px 1px rgba(0,0,0,0.05),
-    0 4px 8px rgba(0,0,0,0.14),
-    0 1px 3px rgba(0,0,0,0.10),
-    inset 0 0 0 2px rgba(204,92,40,0.3),
-    inset 0 1px 0 rgba(255,255,255,0.5);
-}
-
-.step-btn.active.current {
-  background: linear-gradient(180deg, #E87838 0%, #D86830 40%, #C85A28 100%);
-  box-shadow:
-    0 3px 1px rgba(0,0,0,0.04),
-    0 4px 8px rgba(0,0,0,0.10),
-    0 0 16px rgba(204,92,40,0.35),
-    0 0 28px rgba(204,92,40,0.15),
-    inset 0 1px 0 rgba(255,180,120,0.4);
-}
-
-/* ══════════════════════════════════════════
-   CONTROL PANEL
-   ══════════════════════════════════════════ */
-.controls-divider {
-  height: 1px;
-  margin: 24px 40px 0;
-  background: rgba(0,0,0,0.06);
-  position: relative;
-  z-index: 2;
-}
-
-.controls-divider::after {
-  content: '';
-  position: absolute;
-  top: 1px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(255,255,255,0.2);
-}
-
-.controls {
+/* ── RIGHT CONTROLS ── */
+.controls-right {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 22px 40px 0;
-  position: relative;
-  z-index: 2;
+  gap: 36px;
 }
 
-.control-group {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.control-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  color: var(--text-muted);
-  text-align: center;
-  margin-top: 8px;
-}
-
-.knob-wrapper {
+/* ── SLIDER (Volume) ── */
+.slider-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* ══════════════════════════════════════════
-   KNOBS
-   ══════════════════════════════════════════ */
-.knob-outer {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.07);
+.slider-group {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.slider-scale {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  padding: 1px 0;
+}
+
+.slider-track {
+  width: 20px;
+  height: 104px;
+  background: var(--surface-dark);
+  border-radius: 4px;
+  position: relative;
   box-shadow:
-    inset 0 2px 6px rgba(0,0,0,0.12),
-    0 1px 0 rgba(255,255,255,0.25);
+    inset 0 3px 8px rgba(0,0,0,0.5),
+    inset 0 0 0 1px rgba(0,0,0,0.15),
+    0 1px 0 rgba(255,255,255,0.15);
+  cursor: pointer;
+}
+
+.slider-fill {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 0%;
+  background: linear-gradient(to top, rgba(204,92,40,0.12), rgba(204,92,40,0.04));
+  border-radius: 0 0 4px 4px;
+  pointer-events: none;
+  transition: height 0.05s ease;
+}
+
+.slider-handle {
+  width: 30px;
+  height: 14px;
+  background: linear-gradient(180deg, #EEEEE8 0%, #DDDDD6 40%, #CCCCC6 100%);
+  border-radius: 3px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0px;
+  box-shadow:
+    0 2px 5px rgba(0,0,0,0.22),
+    0 1px 2px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -1px 0 rgba(0,0,0,0.06);
+  cursor: grab;
+  transition: bottom 0.05s ease;
+  z-index: 2;
+}
+
+.slider-handle:active { cursor: grabbing; }
+
+.slider-handle::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 1.5px;
+  background: rgba(0,0,0,0.12);
+  border-radius: 1px;
+}
+
+.control-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 2.5px;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+/* ── BIG KNOB (Filter) ── */
+.filter-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter-knob-outer {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: var(--surface-dark);
+  box-shadow:
+    inset 0 2px 8px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(0,0,0,0.1),
+    0 1px 0 rgba(255,255,255,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
 }
 
-.knob {
-  width: 56px;
-  height: 56px;
+.filter-knob {
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
   background: conic-gradient(
     from 30deg,
-    #B4B4B8, #DCDCE0 45deg, #A4A4A8 90deg,
-    #CCCCD0 135deg, #9C9CA0 180deg,
-    #C4C4C8 225deg, #AEAEB2 270deg,
-    #D4D4D8 315deg, #B4B4B8
+    #C0C0C4, #E0E0E4 45deg, #A8A8AC 90deg,
+    #D0D0D4 135deg, #A0A0A4 180deg,
+    #C8C8CC 225deg, #B0B0B4 270deg,
+    #D8D8DC 315deg, #C0C0C4
   );
   box-shadow:
-    0 3px 8px rgba(0,0,0,0.25),
+    0 4px 12px rgba(0,0,0,0.25),
     0 1px 3px rgba(0,0,0,0.15),
     inset 0 1px 1px rgba(255,255,255,0.5),
     inset 0 -1px 1px rgba(0,0,0,0.08);
@@ -459,195 +409,41 @@ body {
   transition: transform 0.05s ease;
 }
 
-.knob:active { cursor: grabbing; }
+.filter-knob:active { cursor: grabbing; }
 
-.knob::after {
+.filter-knob::after {
   content: '';
   position: absolute;
-  top: 6px;
+  top: 7px;
   left: 50%;
   transform: translateX(-50%);
   width: 3px;
-  height: 10px;
+  height: 14px;
   border-radius: 2px;
   background: var(--surface-dark);
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.4);
 }
 
-/* ══════════════════════════════════════════
-   TEMPO DISPLAY
-   ══════════════════════════════════════════ */
-.tempo-display {
-  background: var(--surface-darker);
-  border-radius: 5px;
-  padding: 7px 14px;
-  box-shadow:
-    inset 0 2px 6px rgba(0,0,0,0.5),
-    inset 0 0 0 1px rgba(0,0,0,0.2),
-    0 1px 0 rgba(255,255,255,0.15);
+.filter-range {
   display: flex;
-  align-items: baseline;
-  gap: 5px;
+  justify-content: space-between;
+  width: 108px;
+  margin-top: 8px;
 }
 
-.tempo-value {
-  font-family: 'Space Mono', monospace;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--amber);
-  text-shadow: 0 0 10px var(--amber-glow);
-  min-width: 42px;
-  text-align: right;
-  line-height: 1;
-}
-
-.tempo-unit {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  color: var(--amber-dim);
-  letter-spacing: 1px;
-}
-
-/* ══════════════════════════════════════════
-   TRANSPORT BUTTONS
-   ══════════════════════════════════════════ */
-.transport {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.transport-btn {
-  width: 46px;
-  height: 46px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  transition: all 0.10s ease;
-  outline: none;
-}
-
-/* Play button — orange domed cap */
-#playBtn {
-  background: radial-gradient(circle at 42% 38%, #D87040 0%, #CC5C28 55%, #B04A1C 100%);
-  box-shadow:
-    0 3px 8px rgba(0,0,0,0.22),
-    0 1px 3px rgba(0,0,0,0.15),
-    0 0 0 2.5px rgba(0,0,0,0.10),
-    inset 0 1px 2px rgba(255,160,100,0.3),
-    inset 0 -1px 2px rgba(0,0,0,0.15);
-}
-
-#playBtn:hover {
-  background: radial-gradient(circle at 42% 38%, #E07848 0%, #D46430 55%, #B85224 100%);
-}
-
-#playBtn:active {
-  transform: translateY(1px);
-  box-shadow:
-    0 1px 4px rgba(0,0,0,0.2),
-    0 0 0 2.5px rgba(0,0,0,0.10),
-    inset 0 2px 4px rgba(0,0,0,0.15);
-}
-
-#playBtn.playing {
-  background: radial-gradient(circle at 42% 38%, #E07848 0%, #D46430 55%, #B85224 100%);
-  box-shadow:
-    0 3px 8px rgba(0,0,0,0.2),
-    0 0 0 2.5px rgba(0,0,0,0.10),
-    0 0 14px rgba(204,92,40,0.25),
-    inset 0 1px 2px rgba(255,160,100,0.3),
-    inset 0 -1px 2px rgba(0,0,0,0.12);
-}
-
-/* Stop button — dark charcoal domed cap */
-#stopBtn {
-  background: radial-gradient(circle at 42% 38%, #4A4442 0%, #372E2D 55%, #2A2220 100%);
-  box-shadow:
-    0 3px 8px rgba(0,0,0,0.22),
-    0 1px 3px rgba(0,0,0,0.15),
-    0 0 0 2.5px rgba(0,0,0,0.10),
-    inset 0 1px 2px rgba(255,255,255,0.08),
-    inset 0 -1px 2px rgba(0,0,0,0.2);
-}
-
-#stopBtn:hover {
-  background: radial-gradient(circle at 42% 38%, #565050 0%, #403838 55%, #322A28 100%);
-}
-
-#stopBtn:active {
-  transform: translateY(1px);
-  box-shadow:
-    0 1px 4px rgba(0,0,0,0.2),
-    0 0 0 2.5px rgba(0,0,0,0.10),
-    inset 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.play-icon {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 7px 0 7px 12px;
-  border-color: transparent transparent transparent rgba(255,255,255,0.85);
-  margin-left: 2px;
-  transition: border-color 0.15s ease;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
-}
-
-.stop-icon {
-  width: 13px;
-  height: 13px;
-  background: rgba(255,255,255,0.7);
-  border-radius: 2px;
-  transition: background 0.15s ease;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
-}
-
-.clear-btn {
-  width: 46px;
-  height: 46px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-family: 'Space Mono', monospace;
+.filter-range span {
   font-size: 8px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 1.5px;
-  color: #5A5650;
-  background: radial-gradient(circle at 42% 38%, #CCC6BC 0%, #BCB3A6 55%, #A8A094 100%);
-  box-shadow:
-    0 3px 8px rgba(0,0,0,0.22),
-    0 1px 3px rgba(0,0,0,0.15),
-    0 0 0 2.5px rgba(0,0,0,0.10),
-    inset 0 1px 2px rgba(255,255,255,0.2),
-    inset 0 -1px 2px rgba(0,0,0,0.1);
-  transition: all 0.10s ease;
-  outline: none;
-}
-
-.clear-btn:hover {
-  color: #3A3630;
-  background: radial-gradient(circle at 42% 38%, #D6D0C6 0%, #C6BDB0 55%, #B0A89C 100%);
-}
-
-.clear-btn:active {
-  transform: translateY(1px);
-  box-shadow:
-    0 1px 4px rgba(0,0,0,0.2),
-    0 0 0 2.5px rgba(0,0,0,0.10),
-    inset 0 2px 4px rgba(0,0,0,0.12);
+  color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 /* ══════════════════════════════════════════
    FOOTER
    ══════════════════════════════════════════ */
 .footer {
-  padding: 24px 40px 28px;
+  padding: 20px var(--pad) 20px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -664,543 +460,207 @@ body {
 }
 
 .screw {
-  width: 10px;
-  height: 10px;
+  width: 10px; height: 10px;
   border-radius: 50%;
   background: radial-gradient(circle at 40% 35%, #CCC, #999 60%, #888);
-  box-shadow:
-    inset 0 1px 2px rgba(0,0,0,0.3),
-    0 1px 0 rgba(255,255,255,0.15);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.15);
   position: relative;
 }
 
 .screw::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 6px;
-  height: 1px;
+  width: 6px; height: 1px;
   background: rgba(0,0,0,0.25);
   border-radius: 1px;
-}
-
-.screws-top {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 40px;
-  margin-top: -6px;
-  position: relative;
-  z-index: 2;
 }
 
 /* ══════════════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════════════ */
-@media (max-width: 920px) {
-  .machine {
-    width: 100%;
-    max-width: 880px;
-    transform: scale(0.9);
-    transform-origin: center center;
-  }
-}
-
-@media (max-width: 780px) {
-  .machine {
-    transform: scale(0.7);
-  }
-}
-
-@media (max-width: 560px) {
-  .machine {
-    transform: scale(0.5);
-  }
+@media (max-width: 540px) {
+  :root { --pad: 16px; }
+  body { padding: 10px; }
 }
 </style>
 </head>
 <body>
 
-<div class="machine" id="machine">
-  <!-- Header -->
+<div class="machine">
   <div class="header">
-    <div class="brand">
-      <div class="power-led" id="powerLed"></div>
-      DRAUN
+    <div class="header-brand">LARMER</div>
+    <div class="header-model">WN-1</div>
+  </div>
+
+  <div class="grill-container" id="grillToggle">
+    <div class="grill-interior">
+      <div class="speaker-cone" id="speakerCone">
+        <div class="speaker-ring"></div>
+        <div class="speaker-ring-inner"></div>
+        <div class="speaker-cap"></div>
+      </div>
     </div>
-    <div class="model">DR-808</div>
+    <div class="grill-slats"></div>
+    <div class="grill-depth"></div>
   </div>
 
-  <!-- Speaker Grill -->
-  <div class="grill-container">
-    <div class="speaker-grill"></div>
-  </div>
-
-  <!-- Accent Line -->
   <div class="accent-line"></div>
 
-  <!-- Step Indicators -->
-  <div class="step-indicators" id="stepIndicators"></div>
-
-  <!-- Beat Labels -->
-  <div class="beat-labels" id="beatLabels"></div>
-
-  <!-- Sequencer Grid -->
-  <div class="sequencer" id="sequencer"></div>
-
-  <!-- Controls Divider -->
-  <div class="controls-divider"></div>
-
-  <!-- Controls -->
   <div class="controls">
-    <div class="control-group">
-      <div class="knob-wrapper">
-        <div class="knob-outer">
-          <div class="knob" id="tempoKnob" data-param="tempo"></div>
+    <div class="controls-right">
+      <div class="slider-wrapper">
+        <div class="slider-group">
+          <div class="slider-scale">
+            <span>1</span>
+            <span>0</span>
+          </div>
+          <div class="slider-track" id="sliderTrack">
+            <div class="slider-fill" id="sliderFill"></div>
+            <div class="slider-handle" id="sliderHandle"></div>
+          </div>
         </div>
-        <div class="control-label">TEMPO</div>
+        <div class="control-label">volume</div>
       </div>
-      <div class="tempo-display">
-        <span class="tempo-value" id="tempoValue">120</span>
-        <span class="tempo-unit">BPM</span>
-      </div>
-    </div>
 
-    <div class="transport">
-      <button class="transport-btn" id="playBtn" aria-label="Play">
-        <div class="play-icon"></div>
-      </button>
-      <button class="transport-btn" id="stopBtn" aria-label="Stop">
-        <div class="stop-icon"></div>
-      </button>
-      <button class="clear-btn" id="clearBtn">CLR</button>
-    </div>
-
-    <div class="control-group">
-      <div class="knob-wrapper">
-        <div class="knob-outer">
-          <div class="knob" id="volumeKnob" data-param="volume"></div>
+      <div class="filter-wrapper">
+        <div class="filter-knob-outer">
+          <div class="filter-knob" id="filterKnob"></div>
         </div>
-        <div class="control-label">VOLUME</div>
+        <div class="filter-range">
+          <span>warm</span>
+          <span>bright</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
   <div class="footer">
     <div class="screw"></div>
-    <div class="footer-label">digital rhythm</div>
+    <div class="footer-label">white noise</div>
     <div class="screw"></div>
   </div>
 </div>
 
 <script>
 // ══════════════════════════════════════════
-// CONFIGURATION
-// ══════════════════════════════════════════
-const NUM_STEPS = 16;
-const CHANNELS = [
-  { id: 'bd', label: 'BD', name: 'kick' },
-  { id: 'sd', label: 'SD', name: 'snare' },
-  { id: 'hh', label: 'HH', name: 'hihat' },
-  { id: 'oh', label: 'OH', name: 'openhat' },
-  { id: 'cp', label: 'CP', name: 'clap' },
-  { id: 'cb', label: 'CB', name: 'cowbell' }
-];
-
-// Default pattern
-const DEFAULT_PATTERN = {
-  bd: [1,0,0,0, 1,0,0,0, 1,0,0,1, 0,0,1,0],
-  sd: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0],
-  hh: [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0],
-  oh: [0,0,0,0, 0,0,0,1, 0,0,0,0, 0,0,0,1],
-  cp: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0],
-  cb: [0,0,0,0, 0,0,1,0, 0,0,0,0, 0,0,1,0]
-};
-
-// ══════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════
 let audioCtx = null;
-let masterGain = null;
 let noiseBuffer = null;
-let pattern = {};
-let isPlaying = false;
-let currentStep = -1;
-let tempo = 120;
-let volume = 0.75;
-let nextStepTime = 0;
-let rafId = null;
-// Cached DOM elements — filled in buildUI
-const ledEls = [];        // 16 step LED elements
-const btnEls = [];        // 16 arrays of 6 button elements per step
-let prevDisplayStep = -1;
+let noiseSource = null;
+let filterNode = null;
+let gainNode = null;
+let isOn = false;
+let volume = 0;
+let filterFreq = 8000;
+let lastVolume = 60; // for space-bar toggle recall
 
 // ══════════════════════════════════════════
-// AUDIO INITIALIZATION
+// AUDIO
 // ══════════════════════════════════════════
 function initAudio() {
-  if (audioCtx) {
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    return;
-  }
+  if (audioCtx) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  masterGain = audioCtx.createGain();
-  masterGain.gain.value = volume;
-  masterGain.connect(audioCtx.destination);
-  noiseBuffer = createNoiseBuffer();
-  document.getElementById('powerLed').classList.add('on');
-}
 
-function createNoiseBuffer() {
-  const size = audioCtx.sampleRate * 0.5;
-  const buffer = audioCtx.createBuffer(1, size, audioCtx.sampleRate);
-  const data = buffer.getChannelData(0);
+  const size = audioCtx.sampleRate * 2;
+  noiseBuffer = audioCtx.createBuffer(1, size, audioCtx.sampleRate);
+  const data = noiseBuffer.getChannelData(0);
   for (let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
-  return buffer;
+
+  filterNode = audioCtx.createBiquadFilter();
+  filterNode.type = 'lowpass';
+  filterNode.frequency.value = filterFreq;
+  filterNode.Q.value = 0.7;
+
+  gainNode = audioCtx.createGain();
+  gainNode.gain.value = 0;
+
+  filterNode.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
 }
 
-// ══════════════════════════════════════════
-// SOUND SYNTHESIS
-// ══════════════════════════════════════════
-function playSound(name, time) {
-  switch (name) {
-    case 'kick': playKick(time); break;
-    case 'snare': playSnare(time); break;
-    case 'hihat': playHihat(time); break;
-    case 'openhat': playOpenHat(time); break;
-    case 'clap': playClap(time); break;
-    case 'cowbell': playCowbell(time); break;
-  }
-}
-
-// Helper: disconnect nodes when the source ends
-function cleanup(sourceNode, ...nodes) {
-  sourceNode.onended = () => { nodes.forEach(n => { try { n.disconnect(); } catch(e) {} }); };
-}
-
-function playKick(t) {
-  const osc = audioCtx.createOscillator();
-  const g = audioCtx.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(150, t);
-  osc.frequency.exponentialRampToValueAtTime(35, t + 0.12);
-  g.gain.setValueAtTime(1, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
-  osc.connect(g); g.connect(masterGain);
-  osc.start(t); osc.stop(t + 0.45);
-
-  const osc2 = audioCtx.createOscillator();
-  const g2 = audioCtx.createGain();
-  osc2.type = 'sine';
-  osc2.frequency.setValueAtTime(80, t);
-  osc2.frequency.exponentialRampToValueAtTime(30, t + 0.15);
-  g2.gain.setValueAtTime(0.6, t);
-  g2.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
-  osc2.connect(g2); g2.connect(masterGain);
-  osc2.start(t); osc2.stop(t + 0.35);
-  cleanup(osc, g, osc2, g2);
-}
-
-function playSnare(t) {
-  const src = audioCtx.createBufferSource();
-  src.buffer = noiseBuffer;
-  const nf = audioCtx.createBiquadFilter();
-  nf.type = 'bandpass'; nf.frequency.value = 3200; nf.Q.value = 0.8;
-  const ng = audioCtx.createGain();
-  ng.gain.setValueAtTime(0.55, t);
-  ng.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
-  src.connect(nf); nf.connect(ng); ng.connect(masterGain);
-  src.start(t); src.stop(t + 0.16);
-
-  const osc = audioCtx.createOscillator();
-  osc.type = 'triangle'; osc.frequency.value = 185;
-  const g = audioCtx.createGain();
-  g.gain.setValueAtTime(0.6, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
-  osc.connect(g); g.connect(masterGain);
-  osc.start(t); osc.stop(t + 0.07);
-  cleanup(src, nf, ng, osc, g);
-}
-
-function playHihat(t) {
-  const src = audioCtx.createBufferSource();
-  src.buffer = noiseBuffer;
-  const f = audioCtx.createBiquadFilter();
-  f.type = 'highpass'; f.frequency.value = 7000;
-  const g = audioCtx.createGain();
-  g.gain.setValueAtTime(0.25, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
-  src.connect(f); f.connect(g); g.connect(masterGain);
-  src.start(t); src.stop(t + 0.05);
-  cleanup(src, f, g);
-}
-
-function playOpenHat(t) {
-  const src = audioCtx.createBufferSource();
-  src.buffer = noiseBuffer;
-  const f = audioCtx.createBiquadFilter();
-  f.type = 'highpass'; f.frequency.value = 5500;
-  const g = audioCtx.createGain();
-  g.gain.setValueAtTime(0.28, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
-  src.connect(f); f.connect(g); g.connect(masterGain);
-  src.start(t); src.stop(t + 0.32);
-  cleanup(src, f, g);
-}
-
-function playClap(t) {
-  const src = audioCtx.createBufferSource();
-  src.buffer = noiseBuffer;
-  const f = audioCtx.createBiquadFilter();
-  f.type = 'bandpass'; f.frequency.value = 1800; f.Q.value = 0.6;
-  const g = audioCtx.createGain();
-  g.gain.setValueAtTime(0.0001, t);
-  g.gain.linearRampToValueAtTime(0.5, t + 0.005);
-  g.gain.setValueAtTime(0.3, t + 0.01);
-  g.gain.linearRampToValueAtTime(0.45, t + 0.015);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-  src.connect(f); f.connect(g); g.connect(masterGain);
-  src.start(t); src.stop(t + 0.2);
-  cleanup(src, f, g);
-}
-
-function playCowbell(t) {
-  const osc1 = audioCtx.createOscillator();
-  const osc2 = audioCtx.createOscillator();
-  osc1.type = 'square'; osc1.frequency.value = 587;
-  osc2.type = 'square'; osc2.frequency.value = 845;
-  const f = audioCtx.createBiquadFilter();
-  f.type = 'bandpass'; f.frequency.value = 700; f.Q.value = 2;
-  const g = audioCtx.createGain();
-  g.gain.setValueAtTime(0.25, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-  osc1.connect(f); osc2.connect(f);
-  f.connect(g); g.connect(masterGain);
-  osc1.start(t); osc2.start(t);
-  osc1.stop(t + 0.18); osc2.stop(t + 0.18);
-  cleanup(osc1, osc2, f, g);
-}
-
-// ══════════════════════════════════════════
-// SEQUENCER ENGINE
-// ══════════════════════════════════════════
-function tick() {
-  if (!isPlaying) return;
-  const now = audioCtx.currentTime;
-
-  // Play any steps that are due
-  while (nextStepTime <= now) {
-    const step = currentStep;
-    CHANNELS.forEach(ch => {
-      if (pattern[ch.id][step]) {
-        playSound(ch.name, nextStepTime);
-      }
-    });
-    currentStep = (currentStep + 1) % NUM_STEPS;
-    nextStepTime += 60.0 / tempo / 4;
-  }
-
-  // Visual: show the step that just played (one behind currentStep)
-  const displayStep = (currentStep - 1 + NUM_STEPS) % NUM_STEPS;
-  if (displayStep !== prevDisplayStep) {
-    // Clear previous
-    if (prevDisplayStep >= 0) {
-      ledEls[prevDisplayStep].classList.remove('active');
-      btnEls[prevDisplayStep].forEach(b => b.classList.remove('current'));
-    }
-    // Light new
-    ledEls[displayStep].classList.add('active');
-    btnEls[displayStep].forEach(b => b.classList.add('current'));
-    prevDisplayStep = displayStep;
-  }
-
-  rafId = requestAnimationFrame(tick);
-}
-
-async function startPlayback() {
+async function startNoise() {
   initAudio();
-  if (audioCtx.state === 'suspended') {
-    await audioCtx.resume();
-  }
-  if (isPlaying) return;
-  isPlaying = true;
-  currentStep = 0;
-  prevDisplayStep = -1;
-  nextStepTime = audioCtx.currentTime;
-  document.getElementById('playBtn').classList.add('playing');
-  rafId = requestAnimationFrame(tick);
+  if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+  noiseSource = audioCtx.createBufferSource();
+  noiseSource.buffer = noiseBuffer;
+  noiseSource.loop = true;
+  noiseSource.connect(filterNode);
+  noiseSource.start();
+
+  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.08);
+
+  isOn = true;
+
+  document.getElementById('speakerCone').classList.add('on');
 }
 
-function stopPlayback() {
-  isPlaying = false;
-  cancelAnimationFrame(rafId);
-  // Clear visuals
-  if (prevDisplayStep >= 0) {
-    ledEls[prevDisplayStep].classList.remove('active');
-    btnEls[prevDisplayStep].forEach(b => b.classList.remove('current'));
-  }
-  prevDisplayStep = -1;
-  currentStep = -1;
-  document.getElementById('playBtn').classList.remove('playing');
-}
+function stopNoise() {
+  if (!noiseSource) return;
 
-function clearPattern() {
-  CHANNELS.forEach(ch => {
-    pattern[ch.id] = new Array(NUM_STEPS).fill(0);
-  });
-  updateAllButtons();
+  const now = audioCtx.currentTime;
+  gainNode.gain.setValueAtTime(gainNode.gain.value, now);
+  gainNode.gain.linearRampToValueAtTime(0, now + 0.15);
+
+  const src = noiseSource;
+  noiseSource = null;
+  setTimeout(() => { try { src.stop(); src.disconnect(); } catch(e) {} }, 200);
+
+  isOn = false;
+
+  document.getElementById('speakerCone').classList.remove('on');
 }
 
 // ══════════════════════════════════════════
-// UI CONSTRUCTION
+// SLIDER (Volume + Power)
 // ══════════════════════════════════════════
-function buildUI() {
-  // Step indicators — mirror the button grid layout exactly
-  const indicatorContainer = document.getElementById('stepIndicators');
-  const indSteps = document.createElement('div');
-  indSteps.className = 'steps';
-  for (let g = 0; g < 4; g++) {
-    const group = document.createElement('div');
-    group.className = 'step-group';
-    for (let s = 0; s < 4; s++) {
-      const cell = document.createElement('div');
-      cell.className = 'step-led-cell';
-      const led = document.createElement('div');
-      led.className = 'step-led';
-      const idx = g * 4 + s;
-      led.dataset.step = idx;
-      ledEls[idx] = led;
-      cell.appendChild(led);
-      group.appendChild(cell);
-    }
-    indSteps.appendChild(group);
+const HANDLE_H = 14;
+
+function setSliderValue(val) {
+  val = Math.max(0, Math.min(100, Math.round(val)));
+  volume = val / 100;
+
+  // Update visual
+  const handle = document.getElementById('sliderHandle');
+  const fill = document.getElementById('sliderFill');
+  const track = document.getElementById('sliderTrack');
+  const trackH = track.offsetHeight;
+  const pct = val / 100;
+  handle.style.bottom = (pct * (trackH - HANDLE_H)) + 'px';
+  fill.style.height = (pct * 100) + '%';
+
+  // Auto on/off
+  if (val > 0 && !isOn) {
+    startNoise();
+  } else if (val === 0 && isOn) {
+    stopNoise();
+  } else if (isOn && gainNode) {
+    gainNode.gain.setTargetAtTime(volume, audioCtx.currentTime, 0.03);
   }
-  indicatorContainer.appendChild(indSteps);
 
-  // Beat labels — same structure
-  const beatContainer = document.getElementById('beatLabels');
-  const beatSteps = document.createElement('div');
-  beatSteps.className = 'steps';
-  for (let i = 0; i < 4; i++) {
-    const group = document.createElement('div');
-    group.className = 'step-group beat-label-group';
-    const label = document.createElement('div');
-    label.className = 'beat-label';
-    label.textContent = i + 1;
-    group.appendChild(label);
-    beatSteps.appendChild(group);
-  }
-  beatContainer.appendChild(beatSteps);
-
-  // Init btnEls arrays
-  for (let i = 0; i < NUM_STEPS; i++) btnEls[i] = [];
-
-  // Sequencer grid
-  const seqContainer = document.getElementById('sequencer');
-  CHANNELS.forEach(ch => {
-    const row = document.createElement('div');
-    row.className = 'channel-row';
-
-    const label = document.createElement('div');
-    label.className = 'channel-label';
-    label.textContent = ch.label;
-    row.appendChild(label);
-
-    const steps = document.createElement('div');
-    steps.className = 'steps';
-
-    for (let g = 0; g < 4; g++) {
-      const group = document.createElement('div');
-      group.className = 'step-group';
-      for (let s = 0; s < 4; s++) {
-        const stepIdx = g * 4 + s;
-        const btn = document.createElement('button');
-        btn.className = 'step-btn';
-        btn.dataset.channel = ch.id;
-        btn.dataset.step = stepIdx;
-        btn.setAttribute('aria-label', `${ch.label} step ${stepIdx + 1}`);
-        btn.addEventListener('mousedown', (e) => {
-          e.preventDefault();
-          initAudio();
-          toggleStep(ch.id, stepIdx, btn);
-        });
-        btnEls[stepIdx].push(btn);
-        group.appendChild(btn);
-      }
-      steps.appendChild(group);
-    }
-
-    row.appendChild(steps);
-    seqContainer.appendChild(row);
-  });
-
-  // Load default pattern
-  CHANNELS.forEach(ch => {
-    pattern[ch.id] = [...DEFAULT_PATTERN[ch.id]];
-  });
-  updateAllButtons();
+  if (val > 0) lastVolume = val;
 }
 
-function toggleStep(channelId, step, btn) {
-  pattern[channelId][step] = pattern[channelId][step] ? 0 : 1;
-  btn.classList.toggle('active', pattern[channelId][step]);
-  // Preview sound on activation
-  if (pattern[channelId][step]) {
-    const ch = CHANNELS.find(c => c.id === channelId);
-    playSound(ch.name, audioCtx.currentTime);
-  }
-}
-
-function updateAllButtons() {
-  document.querySelectorAll('.step-btn').forEach(btn => {
-    const ch = btn.dataset.channel;
-    const step = parseInt(btn.dataset.step);
-    btn.classList.toggle('active', !!pattern[ch][step]);
-  });
-}
-
-
-// ══════════════════════════════════════════
-// KNOB INTERACTION
-// ══════════════════════════════════════════
-function setupKnobs() {
-  const tempoKnob = document.getElementById('tempoKnob');
-  const volumeKnob = document.getElementById('volumeKnob');
-
-  setupKnob(tempoKnob, {
-    min: 60, max: 200, value: tempo, step: 1,
-    onChange: (val) => {
-      tempo = val;
-      document.getElementById('tempoValue').textContent = Math.round(val);
-    }
-  });
-
-  setupKnob(volumeKnob, {
-    min: 0, max: 100, value: volume * 100, step: 1,
-    onChange: (val) => {
-      volume = val / 100;
-      if (masterGain) masterGain.gain.value = volume;
-    }
-  });
-
-  // Set initial rotation
-  updateKnobRotation(tempoKnob, tempo, 60, 200);
-  updateKnobRotation(volumeKnob, volume * 100, 0, 100);
-}
-
-function setupKnob(el, opts) {
+function setupSlider() {
+  const track = document.getElementById('sliderTrack');
   let dragging = false;
-  let startY = 0;
-  let startVal = opts.value;
+
+  function valFromY(clientY) {
+    const rect = track.getBoundingClientRect();
+    let pct = 1 - (clientY - rect.top) / rect.height;
+    return Math.max(0, Math.min(100, Math.round(pct * 100)));
+  }
 
   function onStart(e) {
     e.preventDefault();
-    initAudio();
+    e.stopPropagation();
     dragging = true;
-    startY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-    startVal = opts.value;
+    const y = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+    setSliderValue(valFromY(y));
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onEnd);
     document.addEventListener('touchmove', onMove, { passive: false });
@@ -1210,16 +670,68 @@ function setupKnob(el, opts) {
   function onMove(e) {
     if (!dragging) return;
     e.preventDefault();
-    const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-    const dy = startY - clientY;
-    const range = opts.max - opts.min;
-    const sensitivity = range / 150;
-    let newVal = startVal + dy * sensitivity;
-    newVal = Math.max(opts.min, Math.min(opts.max, newVal));
-    newVal = Math.round(newVal / opts.step) * opts.step;
-    opts.value = newVal;
-    opts.onChange(newVal);
-    updateKnobRotation(el, newVal, opts.min, opts.max);
+    const y = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+    setSliderValue(valFromY(y));
+  }
+
+  function onEnd() {
+    dragging = false;
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onEnd);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend', onEnd);
+  }
+
+  track.addEventListener('mousedown', onStart);
+  track.addEventListener('touchstart', onStart, { passive: false });
+
+  track.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    setSliderValue(volume * 100 + (e.deltaY < 0 ? 5 : -5));
+  }, { passive: false });
+
+  // Init at 0
+  setSliderValue(0);
+}
+
+// ══════════════════════════════════════════
+// KNOB (Filter)
+// ══════════════════════════════════════════
+function setupFilterKnob() {
+  const el = document.getElementById('filterKnob');
+  let dragging = false;
+  let startY = 0;
+  let startVal = 70;
+  let currentVal = 70;
+
+  function applyFilter(val) {
+    currentVal = val;
+    filterFreq = 100 * Math.pow(200, val / 200);
+    if (filterNode) {
+      filterNode.frequency.setTargetAtTime(filterFreq, audioCtx.currentTime, 0.05);
+    }
+    updateKnobRotation(el, val, 0, 100);
+  }
+
+  function onStart(e) {
+    e.preventDefault();
+    dragging = true;
+    startY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+    startVal = currentVal;
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onEnd);
+  }
+
+  function onMove(e) {
+    if (!dragging) return;
+    e.preventDefault();
+    const y = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+    const dy = startY - y;
+    let newVal = startVal + dy * (100 / 150);
+    newVal = Math.max(0, Math.min(100, Math.round(newVal)));
+    applyFilter(newVal);
   }
 
   function onEnd() {
@@ -1233,63 +745,49 @@ function setupKnob(el, opts) {
   el.addEventListener('mousedown', onStart);
   el.addEventListener('touchstart', onStart, { passive: false });
 
-  // Scroll support
   el.addEventListener('wheel', (e) => {
     e.preventDefault();
-    initAudio();
-    const range = opts.max - opts.min;
-    const sensitivity = range / 60;
-    let newVal = opts.value + (e.deltaY < 0 ? sensitivity : -sensitivity);
-    newVal = Math.max(opts.min, Math.min(opts.max, newVal));
-    newVal = Math.round(newVal / opts.step) * opts.step;
-    opts.value = newVal;
-    opts.onChange(newVal);
-    updateKnobRotation(el, newVal, opts.min, opts.max);
+    let newVal = currentVal + (e.deltaY < 0 ? 3 : -3);
+    newVal = Math.max(0, Math.min(100, Math.round(newVal)));
+    applyFilter(newVal);
   }, { passive: false });
+
+  // Init
+  updateKnobRotation(el, 70, 0, 100);
 }
 
 function updateKnobRotation(el, val, min, max) {
   const pct = (val - min) / (max - min);
-  const angle = -135 + pct * 270;
-  el.style.transform = `rotate(${angle}deg)`;
+  el.style.transform = `rotate(${-135 + pct * 270}deg)`;
 }
 
 // ══════════════════════════════════════════
-// TRANSPORT EVENT HANDLERS
+// GRILL TOGGLE + KEYBOARD
 // ══════════════════════════════════════════
-document.getElementById('playBtn').addEventListener('click', () => {
-  if (isPlaying) {
-    stopPlayback();
+document.getElementById('grillToggle').addEventListener('click', () => {
+  if (isOn) {
+    setSliderValue(0);
   } else {
-    startPlayback();
+    setSliderValue(lastVolume || 60);
   }
 });
 
-document.getElementById('stopBtn').addEventListener('click', () => {
-  stopPlayback();
-});
-
-document.getElementById('clearBtn').addEventListener('click', () => {
-  clearPattern();
-});
-
-// Keyboard shortcuts
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space') {
     e.preventDefault();
-    if (isPlaying) stopPlayback(); else startPlayback();
-  } else if (e.code === 'Escape') {
-    stopPlayback();
-  } else if (e.code === 'KeyC' && !e.metaKey && !e.ctrlKey) {
-    clearPattern();
+    if (isOn) {
+      setSliderValue(0);
+    } else {
+      setSliderValue(lastVolume || 60);
+    }
   }
 });
 
 // ══════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════
-buildUI();
-setupKnobs();
+setupSlider();
+setupFilterKnob();
 </script>
 </body>
 </html>
