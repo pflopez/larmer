@@ -4,25 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DRAUN DR-808 Digital Rhythm</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23D0CFC8'/%3E%3Crect x='4' y='4' width='24' height='10' rx='2' fill='%232A2A30'/%3E%3Ccircle cx='8' cy='9' r='1.5' fill='%23CC5C28'/%3E%3Ccircle cx='13' cy='9' r='1.5' fill='%23CC5C28' opacity='.4'/%3E%3Ccircle cx='18' cy='9' r='1.5' fill='%235C9A44'/%3E%3Ccircle cx='23' cy='9' r='1.5' fill='%235C9A44' opacity='.4'/%3E%3Crect x='4' y='18' width='5' height='5' rx='1' fill='%232A2A30'/%3E%3Crect x='13.5' y='18' width='5' height='5' rx='1' fill='%232A2A30'/%3E%3Crect x='23' y='18' width='5' height='5' rx='1' fill='%232A2A30'/%3E%3Crect x='4' y='25' width='5' height='3' rx='1' fill='%23CC5C28'/%3E%3Crect x='13.5' y='25' width='5' height='3' rx='1' fill='%23C8483A'/%3E%3Crect x='23' y='25' width='5' height='3' rx='1' fill='%235C9A44'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --body-color: #D6CEBC;
-  --body-dark: #C8C0AE;
-  --body-light: #E0D8C8;
-  --surface-dark: #2D2926;
-  --surface-darker: #1A1714;
-  --amber: #E8943A;
-  --amber-glow: rgba(232, 148, 58, 0.5);
-  --amber-dim: #8A5A28;
+  --body-color: #D0CFC8;
+  --body-dark: #C4C3BC;
+  --body-light: #DCDBD4;
+  --surface-dark: #2A2A30;
+  --surface-darker: #1A1A1E;
+  --amber: #CC5C28;
+  --amber-glow: rgba(204, 92, 40, 0.55);
+  --amber-dim: #6A3418;
   --green: #5C9A44;
   --green-glow: rgba(92, 154, 68, 0.5);
-  --text-dark: #2D2926;
-  --text-muted: #7A756C;
-  --grill-hole: #2A2420;
-  --aluminum: linear-gradient(135deg, #B8B8B8, #D8D8D8 30%, #A0A0A0 50%, #C8C8C8 70%, #B0B0B0);
+  --red-accent: #C8483A;
+  --text-dark: #2A2A30;
+  --text-muted: #6C6C74;
+  --grill-slot: #42424A;
 }
 
 html {
@@ -34,9 +35,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1C1916;
+  background: #1C1C20;
   background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(60,50,40,0.4) 0%, transparent 70%);
+    radial-gradient(ellipse at 50% 30%, rgba(50,50,60,0.4) 0%, transparent 70%);
   font-family: 'Outfit', sans-serif;
   padding: 40px 20px;
   user-select: none;
@@ -127,15 +128,15 @@ body {
 }
 
 .speaker-grill {
-  height: 110px;
+  height: 120px;
   border-radius: 8px;
   background-color: var(--body-dark);
-  background-image: radial-gradient(circle, var(--grill-hole) 1.1px, transparent 1.2px);
-  background-size: 5.5px 5.5px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='7'%3E%3Crect x='3' y='1.8' width='36' height='3.2' rx='1.6' fill='%2342424A'/%3E%3C/svg%3E");
+  background-size: 42px 7px;
   box-shadow:
-    inset 0 3px 10px rgba(0,0,0,0.25),
-    inset 0 -1px 4px rgba(0,0,0,0.1),
-    inset 0 0 0 1px rgba(0,0,0,0.06);
+    inset 0 4px 12px rgba(0,0,0,0.22),
+    inset 0 -2px 6px rgba(0,0,0,0.08),
+    inset 0 0 0 1px rgba(0,0,0,0.05);
 }
 
 /* ══════════════════════════════════════════
@@ -145,11 +146,11 @@ body {
   height: 2px;
   margin: 22px 40px 0;
   background: linear-gradient(90deg,
-    rgba(180,175,165,0) 0%,
-    rgba(180,175,165,0.6) 15%,
-    rgba(200,195,185,0.8) 50%,
-    rgba(180,175,165,0.6) 85%,
-    rgba(180,175,165,0) 100%
+    rgba(175,175,180,0) 0%,
+    rgba(175,175,180,0.6) 15%,
+    rgba(195,195,200,0.8) 50%,
+    rgba(175,175,180,0.6) 85%,
+    rgba(175,175,180,0) 100%
   );
   position: relative;
   z-index: 2;
@@ -178,9 +179,15 @@ body {
   display: flex;
   padding: 22px 40px 0;
   padding-left: 104px;
-  gap: 0;
   position: relative;
   z-index: 2;
+}
+
+.step-led-cell {
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .step-led {
@@ -189,15 +196,13 @@ body {
   border-radius: 50%;
   background: rgba(0,0,0,0.12);
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.15);
-  transition: all 0.08s ease;
-  flex-shrink: 0;
 }
 
 .step-led.active {
   background: var(--amber);
   box-shadow:
     0 0 5px var(--amber-glow),
-    0 0 12px rgba(232,148,58,0.3);
+    0 0 12px rgba(204,92,40,0.3);
 }
 
 .beat-labels {
@@ -208,13 +213,16 @@ body {
   z-index: 2;
 }
 
+.beat-label-group {
+  justify-content: center;
+}
+
 .beat-label {
   font-family: 'Space Mono', monospace;
   font-size: 8px;
   color: var(--text-muted);
   letter-spacing: 1px;
   text-align: center;
-  flex-shrink: 0;
 }
 
 /* ══════════════════════════════════════════
@@ -229,7 +237,7 @@ body {
 .channel-row {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .channel-row:last-child {
@@ -263,61 +271,102 @@ body {
 }
 
 .step-btn {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   position: relative;
-  background: linear-gradient(180deg, #4A4640 0%, #3A3632 40%, #333028 100%);
+  background: linear-gradient(180deg, #EAEAE6 0%, #DDDDD8 40%, #D0D0CA 100%);
   box-shadow:
-    0 2px 4px rgba(0,0,0,0.3),
-    0 1px 1px rgba(0,0,0,0.2),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-  transition: all 0.1s ease;
+    0 3px 1px rgba(0,0,0,0.05),
+    0 4px 8px rgba(0,0,0,0.14),
+    0 1px 3px rgba(0,0,0,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.75),
+    inset 0 -1px 0 rgba(0,0,0,0.04),
+    inset 1px 0 0 rgba(255,255,255,0.2),
+    inset -1px 0 0 rgba(0,0,0,0.02);
   outline: none;
 }
 
+.step-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.06) 0%, transparent 55%);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.07),
+    inset 0 1px 2px rgba(0,0,0,0.04),
+    inset 0 -2px 3px rgba(255,255,255,0.25),
+    inset 0 -1px 1px rgba(255,255,255,0.18);
+  pointer-events: none;
+}
+
 .step-btn:hover {
-  background: linear-gradient(180deg, #555048 0%, #444038 40%, #3A3630 100%);
+  background: linear-gradient(180deg, #F0F0EC 0%, #E4E4DE 40%, #D6D6D0 100%);
 }
 
 .step-btn:active {
-  transform: translateY(1px);
+  transform: translateY(2px);
   box-shadow:
-    0 1px 2px rgba(0,0,0,0.3),
-    0 0px 1px rgba(0,0,0,0.2),
-    inset 0 1px 2px rgba(0,0,0,0.15);
+    0 1px 1px rgba(0,0,0,0.08),
+    0 1px 3px rgba(0,0,0,0.06),
+    inset 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.step-btn:active::after {
+  box-shadow:
+    inset 0 2px 3px rgba(0,0,0,0.06),
+    inset 0 1px 1px rgba(0,0,0,0.03),
+    inset 0 -1px 2px rgba(255,255,255,0.15);
 }
 
 .step-btn.active {
-  background: linear-gradient(180deg, #F0A848 0%, #E89038 40%, #D47828 100%);
+  background: linear-gradient(180deg, #D86830 0%, #CC5C28 40%, #B84E20 100%);
   box-shadow:
-    0 2px 4px rgba(0,0,0,0.25),
-    0 1px 1px rgba(0,0,0,0.15),
-    0 0 10px rgba(232,148,58,0.2),
-    inset 0 1px 0 rgba(255,220,160,0.3);
+    0 3px 1px rgba(0,0,0,0.05),
+    0 4px 8px rgba(0,0,0,0.12),
+    0 1px 3px rgba(0,0,0,0.08),
+    0 0 12px rgba(204,92,40,0.2),
+    inset 0 1px 0 rgba(255,160,90,0.35),
+    inset 0 -1px 0 rgba(0,0,0,0.08);
+}
+
+.step-btn.active::after {
+  background: radial-gradient(ellipse at 50% 40%, rgba(255,180,120,0.08) 0%, transparent 55%);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.10),
+    inset 0 1px 2px rgba(0,0,0,0.06),
+    inset 0 -2px 3px rgba(255,160,90,0.22),
+    inset 0 -1px 1px rgba(255,140,70,0.15);
 }
 
 .step-btn.active:hover {
-  background: linear-gradient(180deg, #F8B458 0%, #F09840 40%, #DC8030 100%);
+  background: linear-gradient(180deg, #E07038 0%, #D46430 40%, #C05628 100%);
 }
 
 .step-btn.current {
   box-shadow:
-    0 2px 4px rgba(0,0,0,0.3),
-    0 1px 1px rgba(0,0,0,0.2),
-    inset 0 0 0 2px rgba(232,148,58,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.08);
+    0 3px 1px rgba(0,0,0,0.05),
+    0 4px 8px rgba(0,0,0,0.14),
+    0 1px 3px rgba(0,0,0,0.10),
+    inset 0 0 0 2px rgba(204,92,40,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.5);
 }
 
 .step-btn.active.current {
-  background: linear-gradient(180deg, #FFC868 0%, #F8A848 40%, #E89038 100%);
+  background: linear-gradient(180deg, #E87838 0%, #D86830 40%, #C85A28 100%);
   box-shadow:
-    0 2px 6px rgba(0,0,0,0.25),
-    0 0 16px rgba(232,148,58,0.35),
-    0 0 30px rgba(232,148,58,0.15),
-    inset 0 1px 0 rgba(255,230,180,0.4);
+    0 3px 1px rgba(0,0,0,0.04),
+    0 4px 8px rgba(0,0,0,0.10),
+    0 0 16px rgba(204,92,40,0.35),
+    0 0 28px rgba(204,92,40,0.15),
+    inset 0 1px 0 rgba(255,180,120,0.4);
 }
 
 /* ══════════════════════════════════════════
@@ -379,10 +428,10 @@ body {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.07);
   box-shadow:
-    inset 0 2px 6px rgba(0,0,0,0.15),
-    0 1px 0 rgba(255,255,255,0.2);
+    inset 0 2px 6px rgba(0,0,0,0.12),
+    0 1px 0 rgba(255,255,255,0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -395,16 +444,16 @@ body {
   border-radius: 50%;
   background: conic-gradient(
     from 30deg,
-    #B0B0B0, #D8D8D8 45deg, #A0A0A0 90deg,
-    #C8C8C8 135deg, #999 180deg,
-    #C0C0C0 225deg, #AAA 270deg,
-    #D0D0D0 315deg, #B0B0B0
+    #B4B4B8, #DCDCE0 45deg, #A4A4A8 90deg,
+    #CCCCD0 135deg, #9C9CA0 180deg,
+    #C4C4C8 225deg, #AEAEB2 270deg,
+    #D4D4D8 315deg, #B4B4B8
   );
   box-shadow:
-    0 3px 8px rgba(0,0,0,0.3),
-    0 1px 3px rgba(0,0,0,0.2),
-    inset 0 1px 1px rgba(255,255,255,0.4),
-    inset 0 -1px 1px rgba(0,0,0,0.1);
+    0 3px 8px rgba(0,0,0,0.25),
+    0 1px 3px rgba(0,0,0,0.15),
+    inset 0 1px 1px rgba(255,255,255,0.5),
+    inset 0 -1px 1px rgba(0,0,0,0.08);
   position: relative;
   cursor: grab;
   transition: transform 0.05s ease;
@@ -469,95 +518,129 @@ body {
 }
 
 .transport-btn {
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #4A4640 0%, #3A3632 50%, #2D2926 100%);
-  box-shadow:
-    0 3px 8px rgba(0,0,0,0.35),
-    0 1px 3px rgba(0,0,0,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-  transition: all 0.12s ease;
-  outline: none;
   position: relative;
+  transition: all 0.10s ease;
+  outline: none;
 }
 
-.transport-btn:hover {
-  background: linear-gradient(180deg, #555048 0%, #444038 50%, #363230 100%);
+/* Play button — orange domed cap */
+#playBtn {
+  background: radial-gradient(circle at 42% 38%, #D87040 0%, #CC5C28 55%, #B04A1C 100%);
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.22),
+    0 1px 3px rgba(0,0,0,0.15),
+    0 0 0 2.5px rgba(0,0,0,0.10),
+    inset 0 1px 2px rgba(255,160,100,0.3),
+    inset 0 -1px 2px rgba(0,0,0,0.15);
 }
 
-.transport-btn:active {
+#playBtn:hover {
+  background: radial-gradient(circle at 42% 38%, #E07848 0%, #D46430 55%, #B85224 100%);
+}
+
+#playBtn:active {
   transform: translateY(1px);
   box-shadow:
-    0 1px 3px rgba(0,0,0,0.3),
-    inset 0 1px 3px rgba(0,0,0,0.2);
+    0 1px 4px rgba(0,0,0,0.2),
+    0 0 0 2.5px rgba(0,0,0,0.10),
+    inset 0 2px 4px rgba(0,0,0,0.15);
 }
 
-.transport-btn.playing {
-  background: linear-gradient(180deg, #6AAA4E 0%, #5C9A44 50%, #4E8838 100%);
+#playBtn.playing {
+  background: radial-gradient(circle at 42% 38%, #E07848 0%, #D46430 55%, #B85224 100%);
   box-shadow:
-    0 3px 8px rgba(0,0,0,0.3),
-    0 0 12px rgba(92,154,68,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.15);
+    0 3px 8px rgba(0,0,0,0.2),
+    0 0 0 2.5px rgba(0,0,0,0.10),
+    0 0 14px rgba(204,92,40,0.25),
+    inset 0 1px 2px rgba(255,160,100,0.3),
+    inset 0 -1px 2px rgba(0,0,0,0.12);
+}
+
+/* Stop button — dark charcoal domed cap */
+#stopBtn {
+  background: radial-gradient(circle at 42% 38%, #4A4442 0%, #372E2D 55%, #2A2220 100%);
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.22),
+    0 1px 3px rgba(0,0,0,0.15),
+    0 0 0 2.5px rgba(0,0,0,0.10),
+    inset 0 1px 2px rgba(255,255,255,0.08),
+    inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+
+#stopBtn:hover {
+  background: radial-gradient(circle at 42% 38%, #565050 0%, #403838 55%, #322A28 100%);
+}
+
+#stopBtn:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 4px rgba(0,0,0,0.2),
+    0 0 0 2.5px rgba(0,0,0,0.10),
+    inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .play-icon {
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 8px 0 8px 14px;
-  border-color: transparent transparent transparent #AAA;
-  margin-left: 3px;
+  border-width: 7px 0 7px 12px;
+  border-color: transparent transparent transparent rgba(255,255,255,0.85);
+  margin-left: 2px;
   transition: border-color 0.15s ease;
-}
-
-.transport-btn.playing .play-icon {
-  border-color: transparent transparent transparent #E0F0D8;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
 }
 
 .stop-icon {
-  width: 14px;
-  height: 14px;
-  background: #AAA;
+  width: 13px;
+  height: 13px;
+  background: rgba(255,255,255,0.7);
   border-radius: 2px;
   transition: background 0.15s ease;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
 }
 
 .clear-btn {
-  padding: 0 18px;
-  height: 36px;
+  width: 46px;
+  height: 46px;
+  padding: 0;
   border: none;
-  border-radius: 18px;
+  border-radius: 50%;
   cursor: pointer;
   font-family: 'Space Mono', monospace;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
-  letter-spacing: 2px;
-  color: #999;
-  background: linear-gradient(180deg, #444038 0%, #3A3632 50%, #302C28 100%);
+  letter-spacing: 1.5px;
+  color: #5A5650;
+  background: radial-gradient(circle at 42% 38%, #CCC6BC 0%, #BCB3A6 55%, #A8A094 100%);
   box-shadow:
-    0 2px 5px rgba(0,0,0,0.3),
-    0 1px 2px rgba(0,0,0,0.2),
-    inset 0 1px 0 rgba(255,255,255,0.06);
-  transition: all 0.12s ease;
+    0 3px 8px rgba(0,0,0,0.22),
+    0 1px 3px rgba(0,0,0,0.15),
+    0 0 0 2.5px rgba(0,0,0,0.10),
+    inset 0 1px 2px rgba(255,255,255,0.2),
+    inset 0 -1px 2px rgba(0,0,0,0.1);
+  transition: all 0.10s ease;
   outline: none;
 }
 
 .clear-btn:hover {
-  color: #CCC;
-  background: linear-gradient(180deg, #504840 0%, #444038 50%, #383430 100%);
+  color: #3A3630;
+  background: radial-gradient(circle at 42% 38%, #D6D0C6 0%, #C6BDB0 55%, #B0A89C 100%);
 }
 
 .clear-btn:active {
   transform: translateY(1px);
   box-shadow:
-    0 1px 2px rgba(0,0,0,0.3),
-    inset 0 1px 2px rgba(0,0,0,0.15);
+    0 1px 4px rgba(0,0,0,0.2),
+    0 0 0 2.5px rgba(0,0,0,0.10),
+    inset 0 2px 4px rgba(0,0,0,0.12);
 }
 
 /* ══════════════════════════════════════════
@@ -747,16 +830,21 @@ let isPlaying = false;
 let currentStep = -1;
 let tempo = 120;
 let volume = 0.75;
-let nextNoteTime = 0;
-let schedulerTimer = null;
-const LOOKAHEAD = 0.05;
-const SCHEDULE_INTERVAL = 25;
+let nextStepTime = 0;
+let rafId = null;
+// Cached DOM elements — filled in buildUI
+const ledEls = [];        // 16 step LED elements
+const btnEls = [];        // 16 arrays of 6 button elements per step
+let prevDisplayStep = -1;
 
 // ══════════════════════════════════════════
 // AUDIO INITIALIZATION
 // ══════════════════════════════════════════
 function initAudio() {
-  if (audioCtx) return;
+  if (audioCtx) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return;
+  }
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   masterGain = audioCtx.createGain();
   masterGain.gain.value = volume;
@@ -787,6 +875,11 @@ function playSound(name, time) {
   }
 }
 
+// Helper: disconnect nodes when the source ends
+function cleanup(sourceNode, ...nodes) {
+  sourceNode.onended = () => { nodes.forEach(n => { try { n.disconnect(); } catch(e) {} }); };
+}
+
 function playKick(t) {
   const osc = audioCtx.createOscillator();
   const g = audioCtx.createGain();
@@ -798,7 +891,6 @@ function playKick(t) {
   osc.connect(g); g.connect(masterGain);
   osc.start(t); osc.stop(t + 0.45);
 
-  // Sub layer
   const osc2 = audioCtx.createOscillator();
   const g2 = audioCtx.createGain();
   osc2.type = 'sine';
@@ -808,10 +900,10 @@ function playKick(t) {
   g2.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
   osc2.connect(g2); g2.connect(masterGain);
   osc2.start(t); osc2.stop(t + 0.35);
+  cleanup(osc, g, osc2, g2);
 }
 
 function playSnare(t) {
-  // Noise
   const src = audioCtx.createBufferSource();
   src.buffer = noiseBuffer;
   const nf = audioCtx.createBiquadFilter();
@@ -822,7 +914,6 @@ function playSnare(t) {
   src.connect(nf); nf.connect(ng); ng.connect(masterGain);
   src.start(t); src.stop(t + 0.16);
 
-  // Tone
   const osc = audioCtx.createOscillator();
   osc.type = 'triangle'; osc.frequency.value = 185;
   const g = audioCtx.createGain();
@@ -830,6 +921,7 @@ function playSnare(t) {
   g.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
   osc.connect(g); g.connect(masterGain);
   osc.start(t); osc.stop(t + 0.07);
+  cleanup(src, nf, ng, osc, g);
 }
 
 function playHihat(t) {
@@ -842,6 +934,7 @@ function playHihat(t) {
   g.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
   src.connect(f); f.connect(g); g.connect(masterGain);
   src.start(t); src.stop(t + 0.05);
+  cleanup(src, f, g);
 }
 
 function playOpenHat(t) {
@@ -854,6 +947,7 @@ function playOpenHat(t) {
   g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
   src.connect(f); f.connect(g); g.connect(masterGain);
   src.start(t); src.stop(t + 0.32);
+  cleanup(src, f, g);
 }
 
 function playClap(t) {
@@ -869,6 +963,7 @@ function playClap(t) {
   g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
   src.connect(f); f.connect(g); g.connect(masterGain);
   src.start(t); src.stop(t + 0.2);
+  cleanup(src, f, g);
 }
 
 function playCowbell(t) {
@@ -885,56 +980,70 @@ function playCowbell(t) {
   f.connect(g); g.connect(masterGain);
   osc1.start(t); osc2.start(t);
   osc1.stop(t + 0.18); osc2.stop(t + 0.18);
+  cleanup(osc1, osc2, f, g);
 }
 
 // ══════════════════════════════════════════
 // SEQUENCER ENGINE
 // ══════════════════════════════════════════
-function scheduler() {
-  while (nextNoteTime < audioCtx.currentTime + LOOKAHEAD) {
-    scheduleStep(currentStep, nextNoteTime);
-    advance();
+function tick() {
+  if (!isPlaying) return;
+  const now = audioCtx.currentTime;
+
+  // Play any steps that are due
+  while (nextStepTime <= now) {
+    const step = currentStep;
+    CHANNELS.forEach(ch => {
+      if (pattern[ch.id][step]) {
+        playSound(ch.name, nextStepTime);
+      }
+    });
+    currentStep = (currentStep + 1) % NUM_STEPS;
+    nextStepTime += 60.0 / tempo / 4;
   }
-  schedulerTimer = setTimeout(scheduler, SCHEDULE_INTERVAL);
-}
 
-function scheduleStep(step, time) {
-  CHANNELS.forEach(ch => {
-    if (pattern[ch.id][step]) {
-      playSound(ch.name, time);
+  // Visual: show the step that just played (one behind currentStep)
+  const displayStep = (currentStep - 1 + NUM_STEPS) % NUM_STEPS;
+  if (displayStep !== prevDisplayStep) {
+    // Clear previous
+    if (prevDisplayStep >= 0) {
+      ledEls[prevDisplayStep].classList.remove('active');
+      btnEls[prevDisplayStep].forEach(b => b.classList.remove('current'));
     }
-  });
+    // Light new
+    ledEls[displayStep].classList.add('active');
+    btnEls[displayStep].forEach(b => b.classList.add('current'));
+    prevDisplayStep = displayStep;
+  }
 
-  // Visual update
-  setTimeout(() => {
-    updateStepIndicators(step);
-    updateGridHighlight(step);
-  }, Math.max(0, (time - audioCtx.currentTime) * 1000));
+  rafId = requestAnimationFrame(tick);
 }
 
-function advance() {
-  const secondsPerStep = 60.0 / tempo / 4;
-  nextNoteTime += secondsPerStep;
-  currentStep = (currentStep + 1) % NUM_STEPS;
-}
-
-function startPlayback() {
+async function startPlayback() {
   initAudio();
+  if (audioCtx.state === 'suspended') {
+    await audioCtx.resume();
+  }
   if (isPlaying) return;
   isPlaying = true;
   currentStep = 0;
-  nextNoteTime = audioCtx.currentTime + 0.05;
+  prevDisplayStep = -1;
+  nextStepTime = audioCtx.currentTime;
   document.getElementById('playBtn').classList.add('playing');
-  scheduler();
+  rafId = requestAnimationFrame(tick);
 }
 
 function stopPlayback() {
   isPlaying = false;
-  clearTimeout(schedulerTimer);
+  cancelAnimationFrame(rafId);
+  // Clear visuals
+  if (prevDisplayStep >= 0) {
+    ledEls[prevDisplayStep].classList.remove('active');
+    btnEls[prevDisplayStep].forEach(b => b.classList.remove('current'));
+  }
+  prevDisplayStep = -1;
   currentStep = -1;
   document.getElementById('playBtn').classList.remove('playing');
-  updateStepIndicators(-1);
-  updateGridHighlight(-1);
 }
 
 function clearPattern() {
@@ -948,41 +1057,45 @@ function clearPattern() {
 // UI CONSTRUCTION
 // ══════════════════════════════════════════
 function buildUI() {
-  // Step indicators
+  // Step indicators — mirror the button grid layout exactly
   const indicatorContainer = document.getElementById('stepIndicators');
-  for (let i = 0; i < NUM_STEPS; i++) {
-    if (i > 0 && i % 4 === 0) {
-      const spacer = document.createElement('div');
-      spacer.style.width = '14px';
-      spacer.style.flexShrink = '0';
-      indicatorContainer.appendChild(spacer);
-    } else if (i > 0) {
-      const spacer = document.createElement('div');
-      spacer.style.width = '35px';
-      spacer.style.flexShrink = '0';
-      indicatorContainer.appendChild(spacer);
+  const indSteps = document.createElement('div');
+  indSteps.className = 'steps';
+  for (let g = 0; g < 4; g++) {
+    const group = document.createElement('div');
+    group.className = 'step-group';
+    for (let s = 0; s < 4; s++) {
+      const cell = document.createElement('div');
+      cell.className = 'step-led-cell';
+      const led = document.createElement('div');
+      led.className = 'step-led';
+      const idx = g * 4 + s;
+      led.dataset.step = idx;
+      ledEls[idx] = led;
+      cell.appendChild(led);
+      group.appendChild(cell);
     }
-    const led = document.createElement('div');
-    led.className = 'step-led';
-    led.dataset.step = i;
-    indicatorContainer.appendChild(led);
+    indSteps.appendChild(group);
   }
+  indicatorContainer.appendChild(indSteps);
 
-  // Beat labels
+  // Beat labels — same structure
   const beatContainer = document.getElementById('beatLabels');
+  const beatSteps = document.createElement('div');
+  beatSteps.className = 'steps';
   for (let i = 0; i < 4; i++) {
-    if (i > 0) {
-      const spacer = document.createElement('div');
-      spacer.style.width = '14px';
-      spacer.style.flexShrink = '0';
-      beatContainer.appendChild(spacer);
-    }
+    const group = document.createElement('div');
+    group.className = 'step-group beat-label-group';
     const label = document.createElement('div');
     label.className = 'beat-label';
     label.textContent = i + 1;
-    label.style.width = `${4 * 36 + 3 * 5}px`;
-    beatContainer.appendChild(label);
+    group.appendChild(label);
+    beatSteps.appendChild(group);
   }
+  beatContainer.appendChild(beatSteps);
+
+  // Init btnEls arrays
+  for (let i = 0; i < NUM_STEPS; i++) btnEls[i] = [];
 
   // Sequencer grid
   const seqContainer = document.getElementById('sequencer');
@@ -1013,6 +1126,7 @@ function buildUI() {
           initAudio();
           toggleStep(ch.id, stepIdx, btn);
         });
+        btnEls[stepIdx].push(btn);
         group.appendChild(btn);
       }
       steps.appendChild(group);
@@ -1047,17 +1161,6 @@ function updateAllButtons() {
   });
 }
 
-function updateStepIndicators(step) {
-  document.querySelectorAll('.step-led').forEach(led => {
-    led.classList.toggle('active', parseInt(led.dataset.step) === step);
-  });
-}
-
-function updateGridHighlight(step) {
-  document.querySelectorAll('.step-btn').forEach(btn => {
-    btn.classList.toggle('current', parseInt(btn.dataset.step) === step);
-  });
-}
 
 // ══════════════════════════════════════════
 // KNOB INTERACTION
