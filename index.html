@@ -244,35 +244,6 @@ body {
   z-index: 2;
 }
 
-.brand-group {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.power-led {
-  width: 9px; height: 9px;
-  border-radius: 50%;
-  background: #444;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
-  transition: all 0.4s ease;
-}
-
-.power-led.on {
-  background: var(--green);
-  box-shadow:
-    0 0 6px var(--green-glow),
-    0 0 14px var(--green-glow),
-    inset 0 -1px 2px rgba(0,0,0,0.2);
-}
-
-.brand-text {
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 8px;
-  color: var(--text-dark);
-}
-
 /* ── RIGHT CONTROLS ── */
 .controls-right {
   display: flex;
@@ -538,7 +509,7 @@ body {
 
   <div class="footer">
     <div class="screw"></div>
-    <div class="footer-label">white noise</div>
+    <div class="footer-label">white noise + rain</div>
     <div class="screw"></div>
   </div>
 </div>
@@ -549,13 +520,13 @@ body {
 // ══════════════════════════════════════════
 let audioCtx = null;
 let noiseBuffer = null;
-let noiseSource = null;
+let activeSources = [];   // all running source nodes
 let filterNode = null;
 let gainNode = null;
 let isOn = false;
 let volume = 0;
-let filterFreq = 8000;
-let lastVolume = 60; // for space-bar toggle recall
+let filterFreq = 100;
+let lastVolume = 60;
 
 // ══════════════════════════════════════════
 // AUDIO
@@ -564,7 +535,7 @@ function initAudio() {
   if (audioCtx) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-  const size = audioCtx.sampleRate * 2;
+  const size = audioCtx.sampleRate * 4;
   noiseBuffer = audioCtx.createBuffer(1, size, audioCtx.sampleRate);
   const data = noiseBuffer.getChannelData(0);
   for (let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
@@ -581,34 +552,77 @@ function initAudio() {
   gainNode.connect(audioCtx.destination);
 }
 
-async function startNoise() {
+function startSound() {
   initAudio();
-  if (audioCtx.state === 'suspended') await audioCtx.resume();
-
-  noiseSource = audioCtx.createBufferSource();
-  noiseSource.buffer = noiseBuffer;
-  noiseSource.loop = true;
-  noiseSource.connect(filterNode);
-  noiseSource.start();
-
-  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-  gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.08);
-
   isOn = true;
-
   document.getElementById('speakerCone').classList.add('on');
+
+  const go = () => {
+    // Layer 1: white noise (low) → filter → gain
+    const src1 = audioCtx.createBufferSource();
+    src1.buffer = noiseBuffer;
+    src1.loop = true;
+    const noiseGain = audioCtx.createGain();
+    noiseGain.gain.value = 0.25;
+    src1.connect(noiseGain);
+    noiseGain.connect(filterNode);
+    src1.start();
+
+    // Layer 2: rain base — low rumble → filter → gain
+    const src2 = audioCtx.createBufferSource();
+    src2.buffer = noiseBuffer;
+    src2.loop = true;
+    const rainLP = audioCtx.createBiquadFilter();
+    rainLP.type = 'lowpass';
+    rainLP.frequency.value = 350;
+    rainLP.Q.value = 0.4;
+    const rainGain1 = audioCtx.createGain();
+    rainGain1.gain.value = 0.8;
+    src2.connect(rainLP);
+    rainLP.connect(rainGain1);
+    rainGain1.connect(filterNode);
+    src2.start();
+
+    // Layer 3: rain patter — mid drops → filter → gain
+    const src3 = audioCtx.createBufferSource();
+    src3.buffer = noiseBuffer;
+    src3.loop = true;
+    const rainBP = audioCtx.createBiquadFilter();
+    rainBP.type = 'bandpass';
+    rainBP.frequency.value = 2200;
+    rainBP.Q.value = 1.0;
+    const rainGain2 = audioCtx.createGain();
+    rainGain2.gain.value = 0.25;
+    src3.connect(rainBP);
+    rainBP.connect(rainGain2);
+    rainGain2.connect(filterNode);
+    src3.start();
+
+    activeSources = [src1, src2, src3];
+
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.08);
+  };
+
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume().then(go);
+  } else {
+    go();
+  }
 }
 
-function stopNoise() {
-  if (!noiseSource) return;
+function stopSound() {
+  if (!activeSources.length) return;
 
   const now = audioCtx.currentTime;
   gainNode.gain.setValueAtTime(gainNode.gain.value, now);
   gainNode.gain.linearRampToValueAtTime(0, now + 0.15);
 
-  const src = noiseSource;
-  noiseSource = null;
-  setTimeout(() => { try { src.stop(); src.disconnect(); } catch(e) {} }, 200);
+  const srcs = [...activeSources];
+  activeSources = [];
+  setTimeout(() => {
+    srcs.forEach(s => { try { s.stop(); s.disconnect(); } catch(e) {} });
+  }, 200);
 
   isOn = false;
 
@@ -635,9 +649,9 @@ function setSliderValue(val) {
 
   // Auto on/off
   if (val > 0 && !isOn) {
-    startNoise();
+    startSound();
   } else if (val === 0 && isOn) {
-    stopNoise();
+    stopSound();
   } else if (isOn && gainNode) {
     gainNode.gain.setTargetAtTime(volume, audioCtx.currentTime, 0.03);
   }
@@ -701,8 +715,8 @@ function setupFilterKnob() {
   const el = document.getElementById('filterKnob');
   let dragging = false;
   let startY = 0;
-  let startVal = 70;
-  let currentVal = 70;
+  let startVal = 0;
+  let currentVal = 0;
 
   function applyFilter(val) {
     currentVal = val;
@@ -753,7 +767,7 @@ function setupFilterKnob() {
   }, { passive: false });
 
   // Init
-  updateKnobRotation(el, 70, 0, 100);
+  updateKnobRotation(el, 0, 0, 100);
 }
 
 function updateKnobRotation(el, val, min, max) {
