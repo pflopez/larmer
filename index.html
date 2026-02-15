@@ -239,10 +239,63 @@ body {
 .controls {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 20px var(--pad) 0;
   position: relative;
   z-index: 2;
+}
+
+/* ── POWER SWITCH ── */
+.power-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.power-led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #8A8A82;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.power-led.on {
+  background: var(--amber);
+  box-shadow: 0 0 6px var(--amber-glow), 0 0 12px var(--amber-glow), inset 0 -1px 2px rgba(255,150,80,0.4);
+}
+
+.power-switch {
+  width: 40px;
+  height: 56px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #B8B7B0 0%, #A8A7A0 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -1px 0 rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.2);
+  padding: 4px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.power-switch-paddle {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #E8E7E0 0%, #D4D3CC 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 2px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.1);
+  transition: transform 0.1s, background 0.2s;
+  transform-origin: center center;
+  transform: perspective(120px) rotateX(8deg);
+}
+
+.power-switch.on .power-switch-paddle {
+  background: linear-gradient(180deg, var(--amber) 0%, #A8421A 100%);
+  border-color: rgba(0,0,0,0.2);
+  box-shadow: inset 0 1px 0 rgba(255,200,150,0.4), inset 0 -2px 4px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.15);
+  transform: perspective(120px) rotateX(-8deg);
 }
 
 /* ── RIGHT CONTROLS ── */
@@ -467,7 +520,7 @@ body {
     <div class="header-model">WN-1</div>
   </div>
 
-  <div class="grill-container" id="grillToggle">
+  <div class="grill-container">
     <div class="grill-interior">
       <div class="speaker-cone" id="speakerCone">
         <div class="speaker-ring"></div>
@@ -482,6 +535,13 @@ body {
   <div class="accent-line"></div>
 
   <div class="controls">
+    <div class="power-wrapper">
+      <div class="power-led" id="powerLed"></div>
+      <div class="power-switch" id="powerSwitch">
+        <div class="power-switch-paddle"></div>
+      </div>
+      <div class="control-label">power</div>
+    </div>
     <div class="controls-right">
       <div class="slider-wrapper">
         <div class="slider-group">
@@ -649,8 +709,10 @@ function setSliderValue(val) {
   // Auto on/off
   if (val > 0 && !isOn) {
     startSound();
+    syncPowerSwitch(true);
   } else if (val === 0 && isOn) {
     stopSound();
+    syncPowerSwitch(false);
   } else if (isOn && gainNode) {
     gainNode.gain.setTargetAtTime(volume, audioCtx.currentTime, 0.03);
   }
@@ -704,8 +766,14 @@ function setupSlider() {
     setSliderValue(volume * 100 + (e.deltaY < 0 ? 5 : -5));
   }, { passive: false });
 
-  // Init at 0
-  setSliderValue(0);
+  // Init volume visual at 50 (sound starts via power switch)
+  volume = 0.5;
+  lastVolume = 50;
+  const handle = document.getElementById('sliderHandle');
+  const fill = document.getElementById('sliderFill');
+  const trackH = track.offsetHeight;
+  handle.style.bottom = (0.5 * (trackH - HANDLE_H)) + 'px';
+  fill.style.height = '50%';
 }
 
 // ══════════════════════════════════════════
@@ -777,37 +845,39 @@ function updateKnobRotation(el, val, min, max) {
 }
 
 // ══════════════════════════════════════════
-// GRILL TOGGLE + KEYBOARD
+// POWER SWITCH
 // ══════════════════════════════════════════
-document.getElementById('grillToggle').addEventListener('click', () => {
-  if (isOn) {
-    setSliderValue(0);
+const powerSwitch = document.getElementById('powerSwitch');
+const powerLed = document.getElementById('powerLed');
+let powerOn = false;
+
+function syncPowerSwitch(on) {
+  powerOn = on;
+  powerSwitch.classList.toggle('on', on);
+  powerLed.classList.toggle('on', on);
+}
+
+function togglePower() {
+  ensureAudioReady();
+  powerOn = !powerOn;
+  powerSwitch.classList.toggle('on', powerOn);
+  powerLed.classList.toggle('on', powerOn);
+
+  if (powerOn) {
+    setSliderValue(lastVolume || 50);
   } else {
-    setSliderValue(lastVolume || 60);
+    setSliderValue(0);
   }
-});
+}
+
+powerSwitch.addEventListener('click', togglePower);
 
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space') {
     e.preventDefault();
-    if (isOn) {
-      setSliderValue(0);
-    } else {
-      setSliderValue(lastVolume || 60);
-    }
+    togglePower();
   }
 });
-
-// ══════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════
-// Warm up AudioContext on first interaction — capture phase so stopPropagation can't block it
-function warmUp() {
-  ensureAudioReady();
-}
-document.addEventListener('touchstart', warmUp, { once: true, capture: true });
-document.addEventListener('touchend', warmUp, { once: true, capture: true });
-document.addEventListener('mousedown', warmUp, { once: true, capture: true });
 
 setupSlider();
 setupFilterKnob();
