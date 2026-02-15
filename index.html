@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LARMER WN-1 — White Noise</title>
+<title>LÄRMER WN-1 — White Noise</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' rx='6' fill='%23D0CFC8'/%3E%3Crect x='4' y='3' width='24' height='18' rx='3' fill='%231A1A1E'/%3E%3Crect x='4' y='3' width='24' height='2.5' rx='1' fill='%23C8C7C0'/%3E%3Crect x='4' y='7.5' width='24' height='2.5' rx='1' fill='%23C8C7C0'/%3E%3Crect x='4' y='12' width='24' height='2.5' rx='1' fill='%23C8C7C0'/%3E%3Crect x='4' y='16.5' width='24' height='2.5' rx='1' fill='%23C8C7C0'/%3E%3Ccircle cx='22' cy='26' r='3.5' fill='%23DDDDD6'/%3E%3Ccircle cx='22' cy='24' r='1' fill='%23CC5C28'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -461,7 +461,7 @@ body {
 
 <div class="machine">
   <div class="header">
-    <div class="header-brand">LARMER</div>
+    <div class="header-brand">LÄRMER</div>
     <div class="header-model">WN-1</div>
   </div>
 
@@ -518,7 +518,7 @@ body {
 // ══════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════
-let audioCtx = null;
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 let noiseBuffer = null;
 let activeSources = [];   // all running source nodes
 let filterNode = null;
@@ -527,13 +527,14 @@ let isOn = false;
 let volume = 0;
 let filterFreq = 100;
 let lastVolume = 60;
+let audioReady = false;
 
 // ══════════════════════════════════════════
 // AUDIO
 // ══════════════════════════════════════════
-function initAudio() {
-  if (audioCtx) return;
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function initNodes() {
+  if (audioReady) return;
+  audioReady = true;
 
   const size = audioCtx.sampleRate * 4;
   noiseBuffer = audioCtx.createBuffer(1, size, audioCtx.sampleRate);
@@ -552,12 +553,19 @@ function initAudio() {
   gainNode.connect(audioCtx.destination);
 }
 
+function ensureAudioReady() {
+  initNodes();
+  if (audioCtx.state === 'suspended') {
+    return audioCtx.resume();
+  }
+  return Promise.resolve();
+}
+
 function startSound() {
-  initAudio();
   isOn = true;
   document.getElementById('speakerCone').classList.add('on');
 
-  const go = () => {
+  ensureAudioReady().then(() => {
     // Layer 1: white noise (low) → filter → gain
     const src1 = audioCtx.createBufferSource();
     src1.buffer = noiseBuffer;
@@ -602,13 +610,7 @@ function startSound() {
 
     gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
     gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.08);
-  };
-
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume().then(go);
-  } else {
-    go();
-  }
+  });
 }
 
 function stopSound() {
@@ -672,6 +674,7 @@ function setupSlider() {
   function onStart(e) {
     e.preventDefault();
     e.stopPropagation();
+    ensureAudioReady();
     dragging = true;
     const y = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
     setSliderValue(valFromY(y));
@@ -729,6 +732,7 @@ function setupFilterKnob() {
 
   function onStart(e) {
     e.preventDefault();
+    ensureAudioReady();
     dragging = true;
     startY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
     startVal = currentVal;
