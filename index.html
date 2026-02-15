@@ -238,71 +238,11 @@ body {
    ══════════════════════════════════════════ */
 .controls {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
   padding: 20px var(--pad) 0;
   position: relative;
   z-index: 2;
-}
-
-/* ── POWER SWITCH ── */
-.power-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.power-led {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #8A8A82;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
-  transition: background 0.2s, box-shadow 0.2s;
-}
-
-.power-led.on {
-  background: var(--amber);
-  box-shadow: 0 0 6px var(--amber-glow), 0 0 12px var(--amber-glow), inset 0 -1px 2px rgba(255,150,80,0.4);
-}
-
-.power-switch {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #908F88 0%, #7A7972 60%, #6E6D66 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-}
-
-/* OFF — raised, popping out above surface */
-.power-switch-paddle {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(160deg, #ECEAE4 0%, #DDDBD5 40%, #C8C6C0 100%);
-  border: 1px solid rgba(255,255,255,0.3);
-  box-shadow:
-    0 4px 8px rgba(0,0,0,0.3),
-    0 2px 3px rgba(0,0,0,0.2),
-    inset 0 2px 2px rgba(255,255,255,0.6);
-  transition: box-shadow 0.1s, background 0.12s, transform 0.1s, border-color 0.1s;
-  transform: translateY(-2px);
-}
-
-/* ON — flush with surface */
-.power-switch.on .power-switch-paddle {
-  background: linear-gradient(160deg, #E87830 0%, var(--amber) 50%, #A84820 100%);
-  border-color: rgba(0,0,0,0.1);
-  box-shadow:
-    0 0 1px rgba(0,0,0,0.15),
-    inset 0 1px 1px rgba(255,255,255,0.15);
-  transform: translateY(0px);
 }
 
 /* ── RIGHT CONTROLS ── */
@@ -542,13 +482,6 @@ body {
   <div class="accent-line"></div>
 
   <div class="controls">
-    <div class="power-wrapper">
-      <div class="power-led" id="powerLed"></div>
-      <div class="power-switch" id="powerSwitch">
-        <div class="power-switch-paddle"></div>
-      </div>
-      <div class="control-label">power</div>
-    </div>
     <div class="controls-right">
       <div class="slider-wrapper">
         <div class="slider-group">
@@ -716,10 +649,8 @@ function setSliderValue(val) {
   // Auto on/off
   if (val > 0 && !isOn) {
     startSound();
-    syncPowerSwitch(true);
   } else if (val === 0 && isOn) {
     stopSound();
-    syncPowerSwitch(false);
   } else if (isOn && gainNode) {
     gainNode.gain.setTargetAtTime(volume, audioCtx.currentTime, 0.03);
   }
@@ -852,37 +783,16 @@ function updateKnobRotation(el, val, min, max) {
 }
 
 // ══════════════════════════════════════════
-// POWER SWITCH
+// KEYBOARD
 // ══════════════════════════════════════════
-const powerSwitch = document.getElementById('powerSwitch');
-const powerLed = document.getElementById('powerLed');
-let powerOn = false;
-
-function syncPowerSwitch(on) {
-  powerOn = on;
-  powerSwitch.classList.toggle('on', on);
-  powerLed.classList.toggle('on', on);
-}
-
-function togglePower() {
-  ensureAudioReady();
-  powerOn = !powerOn;
-  powerSwitch.classList.toggle('on', powerOn);
-  powerLed.classList.toggle('on', powerOn);
-
-  if (powerOn) {
-    setSliderValue(lastVolume || 50);
-  } else {
-    setSliderValue(0);
-  }
-}
-
-powerSwitch.addEventListener('click', togglePower);
-
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space') {
     e.preventDefault();
-    togglePower();
+    if (isOn) {
+      setSliderValue(0);
+    } else {
+      setSliderValue(lastVolume || 50);
+    }
   }
 });
 
