@@ -271,11 +271,7 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--body-dark);
-  box-shadow:
-    inset 0 3px 6px rgba(0,0,0,0.4),
-    inset 0 -1px 2px rgba(255,255,255,0.2),
-    0 1px 0 rgba(255,255,255,0.25);
+  background: radial-gradient(circle, #908F88 0%, #7A7972 60%, #6E6D66 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -284,29 +280,29 @@ body {
   user-select: none;
 }
 
-/* OFF — raised, popping out */
+/* OFF — raised, popping out above surface */
 .power-switch-paddle {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: linear-gradient(170deg, #E8E7E0 0%, #DCDBD4 35%, #C8C7C0 100%);
+  background: linear-gradient(160deg, #ECEAE4 0%, #DDDBD5 40%, #C8C6C0 100%);
+  border: 1px solid rgba(255,255,255,0.3);
   box-shadow:
-    0 4px 6px rgba(0,0,0,0.25),
-    0 1px 3px rgba(0,0,0,0.2),
-    inset 0 2px 1px rgba(255,255,255,0.8),
-    inset 0 -1px 1px rgba(0,0,0,0.05);
-  transition: box-shadow 0.1s, background 0.12s, transform 0.1s;
+    0 4px 8px rgba(0,0,0,0.3),
+    0 2px 3px rgba(0,0,0,0.2),
+    inset 0 2px 2px rgba(255,255,255,0.6);
+  transition: box-shadow 0.1s, background 0.12s, transform 0.1s, border-color 0.1s;
   transform: translateY(-2px);
 }
 
-/* ON — pressed in, amber */
+/* ON — flush with surface */
 .power-switch.on .power-switch-paddle {
-  background: linear-gradient(170deg, #E87830 0%, var(--amber) 50%, #993D14 100%);
+  background: linear-gradient(160deg, #E87830 0%, var(--amber) 50%, #A84820 100%);
+  border-color: rgba(0,0,0,0.1);
   box-shadow:
-    inset 0 4px 6px rgba(0,0,0,0.35),
-    inset 0 1px 3px rgba(0,0,0,0.25),
-    0 -1px 0 rgba(255,255,255,0.1);
-  transform: translateY(2px);
+    0 0 1px rgba(0,0,0,0.15),
+    inset 0 1px 1px rgba(255,255,255,0.15);
+  transform: translateY(0px);
 }
 
 /* ── RIGHT CONTROLS ── */
