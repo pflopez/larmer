@@ -518,7 +518,7 @@ body {
 // ══════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioCtx = null;
 let noiseBuffer = null;
 let activeSources = [];   // all running source nodes
 let filterNode = null;
@@ -527,34 +527,30 @@ let isOn = false;
 let volume = 0;
 let filterFreq = 100;
 let lastVolume = 60;
-let audioReady = false;
 
 // ══════════════════════════════════════════
 // AUDIO
 // ══════════════════════════════════════════
-function initNodes() {
-  if (audioReady) return;
-  audioReady = true;
-
-  const size = audioCtx.sampleRate * 4;
-  noiseBuffer = audioCtx.createBuffer(1, size, audioCtx.sampleRate);
-  const data = noiseBuffer.getChannelData(0);
-  for (let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
-
-  filterNode = audioCtx.createBiquadFilter();
-  filterNode.type = 'lowpass';
-  filterNode.frequency.value = filterFreq;
-  filterNode.Q.value = 0.7;
-
-  gainNode = audioCtx.createGain();
-  gainNode.gain.value = 0;
-
-  filterNode.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
-}
-
 function ensureAudioReady() {
-  initNodes();
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const size = audioCtx.sampleRate * 4;
+    noiseBuffer = audioCtx.createBuffer(1, size, audioCtx.sampleRate);
+    const data = noiseBuffer.getChannelData(0);
+    for (let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
+
+    filterNode = audioCtx.createBiquadFilter();
+    filterNode.type = 'lowpass';
+    filterNode.frequency.value = filterFreq;
+    filterNode.Q.value = 0.7;
+
+    gainNode = audioCtx.createGain();
+    gainNode.gain.value = 0;
+
+    filterNode.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+  }
   if (audioCtx.state === 'suspended') {
     return audioCtx.resume();
   }
