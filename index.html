@@ -560,9 +560,11 @@ function ensureAudioReady() {
 }
 
 function startSound() {
-  ensureAudioReady();
   isOn = true;
   document.getElementById('speakerCone').classList.add('on');
+
+  // If AudioContext isn't running yet, defer — onEnd will pick it up
+  if (!audioCtx || audioCtx.state !== 'running') return;
 
   // Layer 1: broad smooth noise — the main body
   const src1 = audioCtx.createBufferSource();
@@ -651,7 +653,7 @@ function setSliderValue(val) {
     startSound();
   } else if (val === 0 && isOn) {
     stopSound();
-  } else if (isOn && gainNode) {
+  } else if (isOn && gainNode && audioCtx && audioCtx.state === 'running') {
     gainNode.gain.setTargetAtTime(volume, audioCtx.currentTime, 0.03);
   }
 
@@ -671,7 +673,6 @@ function setupSlider() {
   function onStart(e) {
     if (e.cancelable) e.preventDefault();
     e.stopPropagation();
-    ensureAudioReady();
     dragging = true;
     const y = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
     setSliderValue(valFromY(y));
@@ -694,6 +695,15 @@ function setupSlider() {
     document.removeEventListener('mouseup', onEnd);
     document.removeEventListener('touchmove', onMove);
     document.removeEventListener('touchend', onEnd);
+
+    // mouseup/touchend IS a valid user gesture — unlock audio here
+    if (isOn && !activeSources.length) {
+      ensureAudioReady().then(() => {
+        if (isOn && !activeSources.length && volume > 0) {
+          startSound();
+        }
+      });
+    }
   }
 
   track.addEventListener('mousedown', onStart);
@@ -735,7 +745,6 @@ function setupFilterKnob() {
 
   function onStart(e) {
     if (e.cancelable) e.preventDefault();
-    ensureAudioReady();
     dragging = true;
     startY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
     startVal = currentVal;
@@ -788,11 +797,13 @@ function updateKnobRotation(el, val, min, max) {
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space') {
     e.preventDefault();
-    if (isOn) {
-      setSliderValue(0);
-    } else {
-      setSliderValue(lastVolume || 50);
-    }
+    ensureAudioReady().then(() => {
+      if (isOn) {
+        setSliderValue(0);
+      } else {
+        setSliderValue(lastVolume || 50);
+      }
+    });
   }
 });
 
