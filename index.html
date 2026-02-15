@@ -457,34 +457,9 @@ body {
   body { padding: 10px; }
 }
 
-.tap-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.tap-overlay span {
-  font-family: 'Jost', sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  color: #fff;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  opacity: 0.9;
-}
-.tap-overlay.hidden {
-  display: none;
-}
 </style>
 </head>
 <body>
-
-<div class="tap-overlay" id="tapOverlay"><span>Tap to start</span></div>
 
 <div class="machine">
   <div class="header">
@@ -552,7 +527,7 @@ let filterNode = null;
 let gainNode = null;
 let isOn = false;
 let volume = 0;
-let filterFreq = 100;
+let filterFreq = 100 * Math.pow(200, 50 / 200);
 let lastVolume = 60;
 
 // ══════════════════════════════════════════
@@ -585,55 +560,54 @@ function ensureAudioReady() {
 }
 
 function startSound() {
+  ensureAudioReady();
   isOn = true;
   document.getElementById('speakerCone').classList.add('on');
 
-  ensureAudioReady().then(() => {
-    // Layer 1: white noise (low) → filter → gain
-    const src1 = audioCtx.createBufferSource();
-    src1.buffer = noiseBuffer;
-    src1.loop = true;
-    const noiseGain = audioCtx.createGain();
-    noiseGain.gain.value = 0.25;
-    src1.connect(noiseGain);
-    noiseGain.connect(filterNode);
-    src1.start();
+  // Layer 1: broad smooth noise — the main body
+  const src1 = audioCtx.createBufferSource();
+  src1.buffer = noiseBuffer;
+  src1.loop = true;
+  const noiseGain = audioCtx.createGain();
+  noiseGain.gain.value = 0.5;
+  src1.connect(noiseGain);
+  noiseGain.connect(filterNode);
+  src1.start();
 
-    // Layer 2: rain base — low rumble → filter → gain
-    const src2 = audioCtx.createBufferSource();
-    src2.buffer = noiseBuffer;
-    src2.loop = true;
-    const rainLP = audioCtx.createBiquadFilter();
-    rainLP.type = 'lowpass';
-    rainLP.frequency.value = 350;
-    rainLP.Q.value = 0.4;
-    const rainGain1 = audioCtx.createGain();
-    rainGain1.gain.value = 0.8;
-    src2.connect(rainLP);
-    rainLP.connect(rainGain1);
-    rainGain1.connect(filterNode);
-    src2.start();
+  // Layer 2: warm low-end — gentle bass blanket
+  const src2 = audioCtx.createBufferSource();
+  src2.buffer = noiseBuffer;
+  src2.loop = true;
+  const warmLP = audioCtx.createBiquadFilter();
+  warmLP.type = 'lowpass';
+  warmLP.frequency.value = 250;
+  warmLP.Q.value = 0.3;
+  const warmGain = audioCtx.createGain();
+  warmGain.gain.value = 0.35;
+  src2.connect(warmLP);
+  warmLP.connect(warmGain);
+  warmGain.connect(filterNode);
+  src2.start();
 
-    // Layer 3: rain patter — mid drops → filter → gain
-    const src3 = audioCtx.createBufferSource();
-    src3.buffer = noiseBuffer;
-    src3.loop = true;
-    const rainBP = audioCtx.createBiquadFilter();
-    rainBP.type = 'bandpass';
-    rainBP.frequency.value = 2200;
-    rainBP.Q.value = 1.0;
-    const rainGain2 = audioCtx.createGain();
-    rainGain2.gain.value = 0.25;
-    src3.connect(rainBP);
-    rainBP.connect(rainGain2);
-    rainGain2.connect(filterNode);
-    src3.start();
+  // Layer 3: soft mid presence — gentle air
+  const src3 = audioCtx.createBufferSource();
+  src3.buffer = noiseBuffer;
+  src3.loop = true;
+  const softBP = audioCtx.createBiquadFilter();
+  softBP.type = 'bandpass';
+  softBP.frequency.value = 1800;
+  softBP.Q.value = 0.3;
+  const softGain = audioCtx.createGain();
+  softGain.gain.value = 0.1;
+  src3.connect(softBP);
+  softBP.connect(softGain);
+  softGain.connect(filterNode);
+  src3.start();
 
-    activeSources = [src1, src2, src3];
+  activeSources = [src1, src2, src3];
 
-    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.08);
-  });
+  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.08);
 }
 
 function stopSound() {
@@ -695,7 +669,7 @@ function setupSlider() {
   }
 
   function onStart(e) {
-    e.preventDefault();
+    if (e.cancelable) e.preventDefault();
     e.stopPropagation();
     ensureAudioReady();
     dragging = true;
@@ -709,7 +683,7 @@ function setupSlider() {
 
   function onMove(e) {
     if (!dragging) return;
-    e.preventDefault();
+    if (e.cancelable) e.preventDefault();
     const y = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
     setSliderValue(valFromY(y));
   }
@@ -754,7 +728,7 @@ function setupFilterKnob() {
   }
 
   function onStart(e) {
-    e.preventDefault();
+    if (e.cancelable) e.preventDefault();
     ensureAudioReady();
     dragging = true;
     startY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
@@ -767,7 +741,7 @@ function setupFilterKnob() {
 
   function onMove(e) {
     if (!dragging) return;
-    e.preventDefault();
+    if (e.cancelable) e.preventDefault();
     const y = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
     const dy = startY - y;
     let newVal = startVal + dy * (100 / 150);
@@ -793,8 +767,8 @@ function setupFilterKnob() {
     applyFilter(newVal);
   }, { passive: false });
 
-  // Init
-  updateKnobRotation(el, 0, 0, 100);
+  // Init at 50%
+  applyFilter(50);
 }
 
 function updateKnobRotation(el, val, min, max) {
@@ -827,11 +801,13 @@ document.addEventListener('keydown', (e) => {
 // ══════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════
-document.getElementById('tapOverlay').addEventListener('click', function() {
-  ensureAudioReady().then(() => {
-    this.classList.add('hidden');
-  });
-});
+// Warm up AudioContext on first interaction — capture phase so stopPropagation can't block it
+function warmUp() {
+  ensureAudioReady();
+}
+document.addEventListener('touchstart', warmUp, { once: true, capture: true });
+document.addEventListener('touchend', warmUp, { once: true, capture: true });
+document.addEventListener('mousedown', warmUp, { once: true, capture: true });
 
 setupSlider();
 setupFilterKnob();
